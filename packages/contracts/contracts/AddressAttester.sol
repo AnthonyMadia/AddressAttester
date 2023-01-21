@@ -5,23 +5,13 @@ import {Unirep} from "@unirep/contracts/Unirep.sol";
 // Uncomment this line to use console.log
 // import "hardhat/console.sol";
 
-// this attester aims to create an anonymity set for eth addresses 
-// an eth address would receive a semaphore identity
-
-// pseudocode
-
 contract AddressAttester {
 
     Unirep public unirep;
 
-    struct AddressProof {
-        bytes32 epochKey;
-        bytes32 merkleRoot;
-        address eoa;
-    }
 
-    mapping(address => AddressProof) public addressProofs;
-
+    // todo: change to SMT 
+    mapping (address => bool) public registeredAddresses;
 
     constructor(Unirep _unirep, uint256 _epochLength) {
         // set unirep address
@@ -56,18 +46,15 @@ contract AddressAttester {
         );
     }
 
-    function register(bytes32 epochKey, bytes32 merkleRoot, address addr) public {
-        // Address hasn't been registered before
-        require(addressProofs[addr].epochKey == bytes32(0));
-        // Only the address owner can register it
-        require(msg.sender == addr); 
-        addressProofs[addr] = AddressProof({epochKey: epochKey, merkleRoot: merkleRoot, eoa: addr});
+    function register(address addr) public {
+        // check if Address hasn't been registered before and only the address owner can register it
+        require(!registeredAddresses[addr]); 
+        require(msg.sender == addr);
+        registeredAddresses[addr] = true;
     }
 
-    function verify(address addr, bytes32 epochKey, bytes32 merkleRoot) public view returns (bool) {
-        return addressProofs[addr].epochKey == epochKey && addressProofs[addr].merkleRoot == merkleRoot;
+    function verify(address addr) public view returns (bool) {
+        return registeredAddresses[addr];
     }
 }
 
-// how would this be integrated into other applications? For Dapps, the smart contract could inherit this functionality
-// and the eth address would be added to the AddressAttester's data strucutre (merkle or mapping?). 
