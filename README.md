@@ -23,12 +23,13 @@ Then, when a user wants to join an application they can prove they control an ad
 
 ### Todos:
 
-- [ ] AddressAttester
-
-- [ ] Circuit that proves the control an address
-
-- [ ] Demo application built with this `AddressAttester` that allows users to anonymously join groups
+- [ ] Simple AddressAttester that registers an ethereum address
+- [ ] Circuit that proves the control an address 
+- [ ] Circuit that would encrypt the address in the UniRep user data correct using a chacha20 implementation 
+---
+- [ ] Demo application built with this `AddressAttester` that allows users to anonymously join groups 
 
 ### Acknowledgements
 
-Bootstrapped with [Create-Unirep-App](https://github.com/Unirep/create-unirep-app)
+- Bootstrapped with [Create-Unirep-App](https://github.com/Unirep/create-unirep-app)
+- PrivateKeyToAddress component from [OxPARC](https://github.com/0xPARC/circom-ecdsa)
