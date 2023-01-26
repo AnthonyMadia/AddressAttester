@@ -7,10 +7,12 @@ import {Unirep} from "@unirep/contracts/Unirep.sol";
 
 contract AddressAttester {
 
+
     Unirep public unirep;
 
 
-    // todo: change to SMT 
+    // todo: using SMT library 
+    
     mapping (address => bool) public registeredAddresses;
 
     constructor(Unirep _unirep, uint256 _epochLength) {
@@ -46,6 +48,8 @@ contract AddressAttester {
         );
     }
 
+
+    // insert into the tree -- index is the Address and value is 1
     function register(address addr) public {
         // check if Address hasn't been registered before and only the address owner can register it
         require(!registeredAddresses[addr]); 
@@ -57,4 +61,3 @@ contract AddressAttester {
         return registeredAddresses[addr];
     }
 }
-

@@ -27,7 +27,7 @@ Then, when a user wants to join an application they can prove they control an ad
 - [ ] Circuit that proves the control an address 
 - [ ] Circuit that would encrypt the address in the UniRep user data correct using a chacha20 implementation 
 ---
-- [ ] Demo application built with this `AddressAttester` that allows users to anonymously join groups 
+- [ ] Demo application built with this `AddressAttester` that allows users to anonymously join groups
 
 ### Acknowledgements
 
