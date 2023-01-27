@@ -58,6 +58,8 @@ library StateTree {
       address _index,
       bytes32 _leaf
     ) internal pure returns (bytes32) {
+       bytes32 index = bytes32(bytes20(address));
+        
         require(_index < SIZE, "_index bigger than tree size");
         require(_proofs.length <= DEPTH, "Invalid _proofs length");
 
