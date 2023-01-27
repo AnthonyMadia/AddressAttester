@@ -13,8 +13,6 @@ contract AddressAttester is Ownable {
 
     Unirep public unirep;
 
-    // todo: using SMT library 
-
     mapping (address => bool) public registeredAddresses;
 
     constructor(Unirep _unirep, uint256 _epochLength) {
