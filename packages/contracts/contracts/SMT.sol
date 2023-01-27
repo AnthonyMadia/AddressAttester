@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 uint256 constant SIZE = 255;
 uint256 constant BUFFER_LENGTH = 1;
-uint256 constant DEPTH = 8;
+uint256 constant DEPTH = 160;
 
 library StateTree {
     // todo: convert index of type uintX to address and convert address to bytes
@@ -58,7 +58,8 @@ library StateTree {
       address _index,
       bytes32 _leaf
     ) internal pure returns (bytes32) {
-       bytes32 index = bytes32(bytes20(address));
+       // bytes32 index = uint(uint32(_index));
+       // TODO: type convert adddress to perform bitwise operations on it
         
         require(_index < SIZE, "_index bigger than tree size");
         require(_proofs.length <= DEPTH, "Invalid _proofs length");
