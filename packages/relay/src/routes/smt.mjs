@@ -16,6 +16,7 @@ const tree = new SparseMerkleTree(depth, zeroHash, arity);
 export default ({ app, db, synchronizer }) => {
   app.post("/api/register", async (req, res) => {
     try {
+      // todo: make zkproof setting the leaf at their address index to 1
       // todo: grab address from frontend or somewhere
       // const { ethAddress } = req.body;
       // add eth address to the SMT
