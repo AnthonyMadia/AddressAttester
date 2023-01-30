@@ -9,7 +9,6 @@ const UnirepApp = require("@unirep-app/contracts/artifacts/contracts/AddressAtte
 // initialize incremental merkle tree with depth 26 and arity of 12
 const arity = 12;
 const depth = 26;
-// initialize sparse merkle tree with depth 4 and zeroHash 0
 const zeroHash = 0;
 
 const tree = new SparseMerkleTree(depth, zeroHash, arity);
