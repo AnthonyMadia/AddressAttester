@@ -71,4 +71,6 @@ contract AddressAttester is Ownable {
         );
     }
 
+    // todo: Verify proofs when circuits are built
+
 }

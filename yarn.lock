@@ -2358,10 +2358,28 @@
     ethers "^5.6.8"
     nanoid "3"
 
+"@unirep/crypto@^2.0.0-alpha-0":
+  version "2.0.0-alpha-0"
+  resolved "https://registry.yarnpkg.com/@unirep/crypto/-/crypto-2.0.0-alpha-0.tgz#b7961af0ccecc6b8148730a0c1076088a09861e1"
+  integrity sha512-2C6kIJUNn4DmxNe7jgV5zA+LdKNq+3E35wIWfkROhLol0JunoRco0/sq3XBf+j4aY6PnSPxY2n44rbtWAy0H+Q==
+  dependencies:
+    "@zk-kit/incremental-merkle-tree" "^0.4.3"
+    circomlibjs "0.0.8"
+    maci-crypto "^0.9.1"
+
 "@unirep/utils@2.0.0-alpha-1":
   version "2.0.0-alpha-1"
   resolved "https://registry.yarnpkg.com/@unirep/utils/-/utils-2.0.0-alpha-1.tgz#d660a145ed9b630f5b73cdbb2986292362f5a43f"
   integrity sha512-PueCGuertErzPOzf5idPrKVt5g8/4LCCGH7PqfFUIu0MJ1sz+dNNhrEGF+1+jGl1tzz6NXQuTVb9KxwSZVsTMw==
+  dependencies:
+    "@zk-kit/incremental-merkle-tree" "^0.4.3"
+    maci-crypto "^0.9.1"
+    poseidon-lite "^0.0.2"
+
+"@unirep/utils@^2.0.0-alpha-4":
+  version "2.0.0-alpha-4"
+  resolved "https://registry.yarnpkg.com/@unirep/utils/-/utils-2.0.0-alpha-4.tgz#9ab954cca6db5763debc778611941844200c6502"
+  integrity sha512-YOkBG3Wt5KYhDCnjtHvIJJzCzI9MkynTNdJPlLvhFGhA0NKxm5JVI5mNGyl5H+mLfxb9b4aHL8Itk12vqILiLA==
   dependencies:
     "@zk-kit/incremental-merkle-tree" "^0.4.3"
     maci-crypto "^0.9.1"
@@ -6331,6 +6349,11 @@ jest-worker@^27.4.5:
     "@types/node" "*"
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
+
+js-sha256@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/js-sha256/-/js-sha256-0.9.0.tgz#0b89ac166583e91ef9123644bd3c5334ce9d0966"
+  integrity sha512-sga3MHh9sgQN2+pJ9VYZ+1LPwXOxuBJBA5nrR5/ofPfuiJBE2hnjsaN8se8JznOmGLN2p49Pe5U/ttafcs/apA==
 
 js-sha3@0.5.7, js-sha3@^0.5.7:
   version "0.5.7"
