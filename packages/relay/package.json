@@ -14,10 +14,12 @@
     "@unirep-app/contracts": "1.0.0",
     "@unirep/circuits": "2.0.0-alpha-1",
     "@unirep/core": "2.0.0-alpha-2",
+    "@unirep/crypto": "^2.0.0-alpha-0",
     "anondb": "^0.0.13",
     "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "js-sha256": "^0.9.0"
   },
   "main": "index.js"
 }
