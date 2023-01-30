@@ -1,4 +1,4 @@
-import { SparseMerkleTree } from "@unirep/crypto";
+import { SparseMerkleTree } from "@unirep/utils";
 import { ethers } from "ethers";
 import { ATTESTERADD_ADDRESS } from "../config.mjs";
 import TransactionManager from "../singletons/TransactionManager.mjs";
@@ -6,20 +6,18 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const UnirepApp = require("@unirep-app/contracts/artifacts/contracts/AddressAttester.sol/AddressAttester.json");
 
-// initialize incremental merkle tree with depth 26
+// initialize incremental merkle tree with depth 26 and arity of 12
+const arity = 12;
 const depth = 26;
 // initialize sparse merkle tree with depth 4 and zeroHash 0
 const zeroHash = 0;
 
-const tree = new SparseMerkleTree(depth, zeroHash);
-
-const appContract = new ethers.Contract(ATTESTERADD_ADDRESS, UnirepApp.abi);
-console.log(appContract);
+const tree = new SparseMerkleTree(depth, zeroHash, arity);
 
 export default ({ app, db, synchronizer }) => {
   app.post("/api/register", async (req, res) => {
     try {
-      // todo: grab address from frontend
+      // todo: grab address from frontend or somewhere
       // const { ethAddress } = req.body;
       // add eth address to the SMT
       tree.update(ethAddress, 1);
@@ -39,14 +37,3 @@ export default ({ app, db, synchronizer }) => {
     }
   });
 };
-
-// const appContract = new ethers.Contract(ATTESTERADD_ADDRESS, UnirepApp.abi);
-// // take eth address and use as data to
-// const calldata = appContract.interface.encodeFunctionData("userSignUp", [
-//   signupProof.publicSignals,
-//   signupProof.proof,
-// ]);
-// const hash = await TransactionManager.queueTransaction(
-//   ATTESTERADD_ADDRESS,
-//   calldata
-// );
