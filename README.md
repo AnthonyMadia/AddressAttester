@@ -1,4 +1,4 @@
-# Attester Idea
+# Address Attester
 
 This project aims to create a [Unirep Attester](https://developer.unirep.io/docs/protocol/users-and-attesters#:~:text=Attesters%20%F0%9F%91%91%E2%80%8B,the%20users%27%20reputation.) that will create an anonymity set for all Ethereum Addresses. The central idea is an `AddressAttester` that will give an Ethereum address a semaphore identity as user data. When the user wants to sign up with another platform they can prove control of an Ethereum address by proving their unirep user data. A user may be able to directly interact with applications without signing up.
 
@@ -24,10 +24,13 @@ Then, when a user wants to join an application they can prove they control an ad
 ### Todos:
 
 - [ ] Simple AddressAttester that registers an ethereum address
-- [ ] Circuit that proves the control an address 
-- [ ] Circuit that would encrypt the address in the UniRep user data correct using a chacha20 implementation 
+- [ ] Circuit tfor user to set the leaf at their address index to 1
+- [ ] Circuit that proves the control an address
+- [ ] Circuit that would encrypt the address in the UniRep user data correct using a chacha20 implementation
+
 ---
-- [ ] Demo application built with this `AddressAttester` that allows users to anonymously join groups 
+
+- [ ] Demo application built with this `AddressAttester` that allows users to anonymously join groups
 
 ### Acknowledgements
 

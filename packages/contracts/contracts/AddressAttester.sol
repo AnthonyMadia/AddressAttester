@@ -1,16 +1,18 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 import {Unirep} from "@unirep/contracts/Unirep.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 // Uncomment this line to use console.log
 // import "hardhat/console.sol";
 
-contract AddressAttester {
+contract AddressAttester is Ownable {
+
+    // root stored onchain
+    uint SMTRoot;
 
     Unirep public unirep;
 
-
-    // todo: change to SMT 
     mapping (address => bool) public registeredAddresses;
 
     constructor(Unirep _unirep, uint256 _epochLength) {
@@ -20,6 +22,29 @@ contract AddressAttester {
         // sign up as an attester
         unirep.attesterSignUp(_epochLength);
     }
+
+    
+    function getRoot() public view returns (uint) {
+      return SMTRoot;
+    }
+
+    // strictly reserved for owner of contract
+    function setRoot(uint _SMTRoot) public onlyOwner (){
+      SMTRoot = _SMTRoot;
+    } 
+
+    // insert into the tree -- index is the Address and value is 1
+    function register(address addr) public {
+        // check if Address hasn't been registered before and only the address owner can register it
+        require(!registeredAddresses[addr]); 
+        require(msg.sender == addr);
+        registeredAddresses[addr] = true;
+    }
+
+    function verify(address addr) public view returns (bool) {
+        return registeredAddresses[addr];
+    }
+
 
     // sign up users in this app
     function userSignUp(
@@ -46,15 +71,6 @@ contract AddressAttester {
         );
     }
 
-    function register(address addr) public {
-        // check if Address hasn't been registered before and only the address owner can register it
-        require(!registeredAddresses[addr]); 
-        require(msg.sender == addr);
-        registeredAddresses[addr] = true;
-    }
+    // todo: Verify proofs when circuits are built
 
-    function verify(address addr) public view returns (bool) {
-        return registeredAddresses[addr];
-    }
 }
-
