@@ -34,7 +34,9 @@ export default ({ app, db, synchronizer }) => {
         "setRoot",
         root
       );
-    } catch (error) {}
+    } catch (error) {
+      res.status(500).json({ error });
+    }
   });
 };
 
