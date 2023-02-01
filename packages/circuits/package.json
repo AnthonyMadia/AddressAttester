@@ -1,0 +1,28 @@
+{
+  "name": "@addressattester/circuits",
+  "version": "1.0.0",
+  "description": "Circuits for address attester",
+  "main": "dist/src/index.js",
+  "repository": "https://github.com/AnthonyMadia/AddressAttester.git",
+  "author": "Anthony Madia",
+  "license": "MIT",
+  "scripts": {
+    "pre": "node scripts/prepare",
+    "build": "yarn buildTs && yarn buildParallel && yarn copyCircom",
+    "buildSnarks": "node scripts/buildSnarks.mjs",
+    "buildParallel": "node scripts/buildParallel.mjs",
+    "buildVerifyEpochKeySnark": "yarn buildSnarks verifyEpochKey",
+    "buildUserStateTransitionSnark": "yarn buildParallel startTransition userStateTransition processAttestations",
+    "buildProveReputationSnark": "yarn buildSnarks proveReputation",
+    "buildProveUserSignUpSnark": "yarn buildSnarks userSignUpSnark",
+    "buildTs": "tsc",
+    "copyCircom": "rm -rf ./dist/zksnarkBuild && cp -rf ./zksnarkBuild ./dist/zksnarkBuild",
+    "time": "ts-node scripts/time.ts",
+    "test": "mocha -r ts-node/register test/*.test.ts --exit"
+  },
+  "dependencies": {
+    "@ethersproject/solidity": "^5.7.0",
+    "@unirep/utils": "^2.0.0-alpha-4",
+    "snarkjs": "^0.5.0"
+  }
+}
