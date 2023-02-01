@@ -4,6 +4,7 @@ include "../node_modules/circomlib/circuits/comparators.circom";
 include "../node_modules/circomlib/circuits/multiplexer.circom";
 
 include "bigint.circom";
+// todo: using secp256k1 hash - not sure if this needs to be changed
 include "secp256k1.circom";
 include "bigint_func.circom";
 include "ecdsa_func.circom";
