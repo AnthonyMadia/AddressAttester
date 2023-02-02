@@ -1,7 +1,7 @@
 pragma circom 2.0.2;
 
-include "../node_modules/circomlib/circuits/comparators.circom";
-include "../node_modules/circomlib/circuits/multiplexer.circom";
+include "./circomlib/circuits/comparators.circom";
+include "./circomlib/circuits/multiplexer.circom";
 
 include "bigint.circom";
 // todo: using secp256k1 hash - not sure if this needs to be changed
@@ -19,6 +19,7 @@ template ECDSAPrivToPub(n, k) {
 
     component n2b[k];
     for (var i = 0; i < k; i++) {
+        // todo: may have to change this implementation of num2bits
         n2b[i] = Num2Bits(n);
         n2b[i].in <== privkey[i];
     }
