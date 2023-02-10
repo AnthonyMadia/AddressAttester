@@ -2,7 +2,7 @@ pragma circom 2.1.2;
 include "../poseidon/poseidon.circom";
 include "../circomlib/circuits/mux1.circom";
 
-// TODO: using SMT proofs not Merkle Proofs
+// TODO: using SMT proofs not these Merkle Proofs
 
 /**
  *  MerkleTreeInclusionProof
