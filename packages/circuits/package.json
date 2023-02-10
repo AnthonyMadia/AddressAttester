@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "pre": "node scripts/prepare"
+  },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",
     "@unirep/utils": "^2.0.0-alpha-4",
