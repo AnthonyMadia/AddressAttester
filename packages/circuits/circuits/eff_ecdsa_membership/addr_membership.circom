@@ -1,8 +1,8 @@
 pragma circom 2.1.2;
 
 include "./eff_ecdsa.circom";
-include "./tree.circom";
 include "./to_address/zk-identity/eth.circom";
+include "./sparseMerkleTree.circom";
 
 /**
  *  AddrMembership
@@ -15,15 +15,17 @@ include "./to_address/zk-identity/eth.circom";
  *  ECDSA signature in EfficientECDSA(), and converted to an address by Keccak
  *  hashing the public key in PubkeyToAddress().
  */
-template AddrMembership(nLevels) {
+
+// NOTE: this circuit is refactored for a SMT. See more in ./sparseMerkleTree.circom
+
+template AddrMembership(HEIGHT, ARITY) {
     signal input s;
     signal input root;
     signal input Tx; 
     signal input Ty; 
     signal input Ux;
     signal input Uy;
-    signal input pathIndices[nLevels];
-    signal input siblings[nLevels];
+    signal input path_elements[HEIGHT][ARITY];
 
     component effEcdsa = EfficientECDSA();
     effEcdsa.Tx <== Tx;
@@ -44,14 +46,15 @@ template AddrMembership(nLevels) {
         pubToAddr.pubkeyBits[i] <== pubKeyYBits.out[i];
         pubToAddr.pubkeyBits[i + 256] <== pubKeyXBits.out[i];
     }
+    component merkletree = SMTLeafExists(HEIGHT, ARITY);
+    merkletree.leaf <== pubToAddr.address;
+    merkletree.leaf_index <== leaf_index;
 
-    component merkleProof = MerkleTreeInclusionProof(nLevels);
-    merkleProof.leaf <== pubToAddr.address;
-
-    for (var i = 0; i < nLevels; i++) {
-        merkleProof.pathIndices[i] <== pathIndices[i];
-        merkleProof.siblings[i] <== siblings[i];
+    for (var i = 0; i < HEIGHT; i++) {
+        for (var j = 0; j < ARITY; j++) {
+            merkletree.path_elements[i][j] <== path_elements[i][j];
+        }
     }
 
-    root === merkleProof.root;
+    root === merkletree.root;
 }

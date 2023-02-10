@@ -13,6 +13,8 @@ template SMTInclusionProof(HEIGHT, ARITY) {
     component hashers[HEIGHT];
     component modulos[HEIGHT];
 
+    // TODO: Height is 26 arity is 12 in AddressAttester
+
     // TODO: see if these can be reduced
     // for a tree of height 32 and arity 8 we get
     // ~768 extra constraints because of these

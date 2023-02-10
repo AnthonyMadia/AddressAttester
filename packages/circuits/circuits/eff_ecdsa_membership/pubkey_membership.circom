@@ -2,7 +2,9 @@ pragma circom 2.1.2;
 
 include "./eff_ecdsa.circom";
 include "./tree.circom";
+include "./sparseMerkleTree.circom"
 include "../poseidon/poseidon.circom";
+
 
 /**
  *  PubkeyMembership
@@ -14,6 +16,8 @@ include "../poseidon/poseidon.circom";
  *  SNARK-unfriendly Keccak hash that must be performed when validating if the 
  *  public key is in a Merkle tree of addresses.
  */
+
+ // TODO: use SPARSE Merkle Tree inclusion proof aather than their Merkle Proof
 template PubKeyMembership(nLevels) {
     signal input s;
     signal input root;
