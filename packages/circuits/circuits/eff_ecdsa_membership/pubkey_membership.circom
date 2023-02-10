@@ -1,7 +1,6 @@
 pragma circom 2.1.2;
 
 include "./eff_ecdsa.circom";
-include "./tree.circom";
 include "./sparseMerkleTree.circom"
 include "../poseidon/poseidon.circom";
 
@@ -17,16 +16,17 @@ include "../poseidon/poseidon.circom";
  *  public key is in a Merkle tree of addresses.
  */
 
- // TODO: use SPARSE Merkle Tree inclusion proof aather than their Merkle Proof
-template PubKeyMembership(nLevels) {
+ // NOTE: using SMT proofs here. Review if siblings input is needed
+
+template PubKeyMembership(HEIGHT, ARITY) {
     signal input s;
     signal input root;
     signal input Tx; 
     signal input Ty; 
     signal input Ux;
     signal input Uy;
-    signal input pathIndices[nLevels];
-    signal input siblings[nLevels];
+    signal input path_elements[HEIGHT][ARITY];
+    // signal input siblings[nLevels];
 
     component ecdsa = EfficientECDSA();
     ecdsa.Tx <== Tx;
@@ -39,12 +39,15 @@ template PubKeyMembership(nLevels) {
     pubKeyHash.inputs[0] <== ecdsa.pubKeyX;
     pubKeyHash.inputs[1] <== ecdsa.pubKeyY;
 
-    component merkleProof = MerkleTreeInclusionProof(nLevels);
-    merkleProof.leaf <== pubKeyHash.out;
+    component merkletree = SMTLeafExists(HEIGHT, ARITY);
+    merkletree.leaf <== pubToAddr.address;
+    merkletree.leaf_index <== leaf_index;
 
-    for (var i = 0; i < nLevels; i++) {
-        merkleProof.pathIndices[i] <== pathIndices[i];
-        merkleProof.siblings[i] <== siblings[i];
+    for (var i = 0; i < HEIGHT; i++) {
+        for (var j = 0; j < ARITY; j++) {
+            merkletree.path_elements[i][j] <== path_elements[i][j];
+        }
     }
-    root === merkleProof.root;
+
+    root === merkletree.root;
 }
