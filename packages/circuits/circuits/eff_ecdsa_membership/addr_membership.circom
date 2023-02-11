@@ -46,9 +46,9 @@ template AddrMembership(HEIGHT, ARITY) {
         pubToAddr.pubkeyBits[i] <== pubKeyYBits.out[i];
         pubToAddr.pubkeyBits[i + 256] <== pubKeyXBits.out[i];
     }
-    component merkletree = SMTLeafExists(HEIGHT, ARITY);
-    merkletree.leaf <== pubToAddr.address;
-    merkletree.leaf_index <== leaf_index;
+    component merkletree = SMTInclusionProof(HEIGHT, ARITY);
+    // todo: won't compile
+    merkletree.leaf_index <== pubToAddr.address;
 
     for (var i = 0; i < HEIGHT; i++) {
         for (var j = 0; j < ARITY; j++) {

@@ -4,6 +4,8 @@ include "../circomlib/circuits/comparators.circom";
 include "../circomlib/circuits/mux1.circom";
 include "./modulo.circom";
 
+// NOTE: Height is 26 arity is 12 in AddressAttester
+
 template SMTInclusionProof(HEIGHT, ARITY) {
     signal input leaf;
     signal input leaf_index;
@@ -11,9 +13,7 @@ template SMTInclusionProof(HEIGHT, ARITY) {
     signal output root;
 
     component hashers[HEIGHT];
-    component modulos[HEIGHT];
-
-    // TODO: Height is 26 arity is 12 in AddressAttester
+    component modulos[HEIGHT];    
 
     // TODO: see if these can be reduced
     // for a tree of height 32 and arity 8 we get

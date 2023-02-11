@@ -1,8 +1,8 @@
 pragma circom 2.1.2;
 
 include "./eff_ecdsa.circom";
-include "./sparseMerkleTree.circom"
-include "../poseidon/poseidon.circom";
+include "./sparseMerkleTree.circom";
+include "../circomlib/circuits/poseidon.circom";
 
 
 /**
@@ -17,6 +17,12 @@ include "../poseidon/poseidon.circom";
  */
 
  // NOTE: using SMT proofs here. Review if siblings input is needed
+
+// I would like to prove that an address is in a SMT of addresses where the 
+// addresses are the index and the value is either 0 if the address has
+// not registered or 1 if it is
+
+
 
 template PubKeyMembership(HEIGHT, ARITY) {
     signal input s;
@@ -39,9 +45,9 @@ template PubKeyMembership(HEIGHT, ARITY) {
     pubKeyHash.inputs[0] <== ecdsa.pubKeyX;
     pubKeyHash.inputs[1] <== ecdsa.pubKeyY;
 
-    component merkletree = SMTLeafExists(HEIGHT, ARITY);
-    merkletree.leaf <== pubToAddr.address;
-    merkletree.leaf_index <== leaf_index;
+    component merkletree = SMTInclusionProof(HEIGHT, ARITY);
+    merkletree.leaf_index <== pubToAddr.address;
+    merkletree.leaf <== ;
 
     for (var i = 0; i < HEIGHT; i++) {
         for (var j = 0; j < ARITY; j++) {
@@ -51,3 +57,6 @@ template PubKeyMembership(HEIGHT, ARITY) {
 
     root === merkletree.root;
 }
+
+// need to figure out value of leaf and final constraint
+// not sure we need siblings value
