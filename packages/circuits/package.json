@@ -4,7 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "pre": "node scripts/prepare"
+    "pre": "node scripts/prepare",
+    "build": "yarn buildTs && yarn buildParallel && yarn copyCircom",
+    "buildSnarks": "node --max-old-space-size=8192 scripts/buildSnarks.mjs",
+    "buildParallel": "node --max-old-space-size=8192 scripts/buildParallel.mjs",
+    "buildTs": "tsc"
   },
   "dependencies": {
     "@ethereumjs/util": "^8.0.3",

@@ -1,4 +1,6 @@
-include "./circomlib/circuits/comparators.circom";
+pragma circom 2.0.0;
+
+include "../circomlib/circuits/comparators.circom";
 
 template Modulo() {
     signal input divisor;

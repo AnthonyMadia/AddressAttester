@@ -1,6 +1,6 @@
-include "./circomlib/circuits/poseidon.circom";
-include "./circomlib/circuits/comparators.circom";
-include "./circomlib/circuits/mux1.circom";
+include "../circomlib/circuits/poseidon.circom";
+include "../circomlib/circuits/comparators.circom";
+include "../circomlib/circuits/mux1.circom";
 include "./sparseMerkleTree.circom";
 
 template UpdateSparseTree(TREE_DEPTH, TREE_ARITY) {
