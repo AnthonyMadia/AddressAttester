@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 import {Unirep} from "@unirep/contracts/Unirep.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
 // Uncomment this line to use console.log
 // import "hardhat/console.sol";
 
-contract AddressAttester is Ownable {
+contract AddressAttester {
 
     // root stored onchain
     bytes32 public root;
@@ -24,11 +23,13 @@ contract AddressAttester is Ownable {
         unirep.attesterSignUp(_epochLength);
     }
 
-    
+    function setRoot(bytes32 newRoot) public {
+        root = newRoot;
+    }
+
     function getRoot() public view returns (bytes32) {
       return root;
     }
-
 
     // sign up users in this app
     function userSignUp(
