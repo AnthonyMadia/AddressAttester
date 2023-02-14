@@ -2,6 +2,10 @@
 
 This project aims to create a [Unirep Attester](https://developer.unirep.io/docs/protocol/users-and-attesters#:~:text=Attesters%20%F0%9F%91%91%E2%80%8B,the%20users%27%20reputation.) that will create an anonymity set for all Ethereum Addresses. The central idea is an `AddressAttester` that will give an Ethereum address a semaphore identity as user data. When the user wants to sign up with another platform they can prove control of an Ethereum address by proving their unirep user data. A user may be able to directly interact with applications without signing up.
 
+## Roadmap
+
+The first version will support non-anonymous signups first and then build towards anonymous signups by using Sparse Merkle Trees and related zk-proofs for updating the tree.
+
 When a user wants to anonymously sign up for an application they can do the following in ZK:
 
 - Prove Ethereum address in unirep user data
