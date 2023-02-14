@@ -24,7 +24,7 @@ Then, when a user wants to join an application they can prove they control an ad
 ### Todos:
 
 - [ ] Simple AddressAttester that registers an ethereum address
-- [ ] Circuit tfor user to set the leaf at their address index to 1
+- [ ] Circuit for user to set the leaf at their address index to 1
 - [ ] Circuit that proves the control an address
 - [ ] Circuit that would encrypt the address in the UniRep user data correct using a chacha20 implementation
 
@@ -35,4 +35,4 @@ Then, when a user wants to join an application they can prove they control an ad
 ### Acknowledgements
 
 - Bootstrapped with [Create-Unirep-App](https://github.com/Unirep/create-unirep-app)
-- PrivateKeyToAddress component from [OxPARC](https://github.com/0xPARC/circom-ecdsa)
+- PrivateKeyToAddress component from [0xPARC](https://github.com/0xPARC/circom-ecdsa)
