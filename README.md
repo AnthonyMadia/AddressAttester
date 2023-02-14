@@ -35,4 +35,5 @@ Then, when a user wants to join an application they can prove they control an ad
 ### Acknowledgements
 
 - Bootstrapped with [Create-Unirep-App](https://github.com/Unirep/create-unirep-app)
-- PrivateKeyToAddress component from [OxPARC](https://github.com/0xPARC/circom-ecdsa)
+- PrivateKeyToAddress component from [0xPARC](https://github.com/0xPARC/circom-ecdsa)
+- Circom and Circomlibjs from Iden3
