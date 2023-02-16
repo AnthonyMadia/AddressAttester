@@ -30,7 +30,7 @@ contract AddressAttester {
      * @param signature The signature signed by the signer
      */
     function isValidSignature(address signer, bytes memory signature)
-        internal
+        public
         view
         returns (bool)
     {
