@@ -1,10 +1,10 @@
 import { SparseMerkleTree } from "@unirep/utils";
 import { ethers } from "ethers";
-import { ATTESTERADD_ADDRESS } from "../config.mjs";
+import { ADDRESS_ADDRESS } from "../config.mjs";
 import TransactionManager from "../singletons/TransactionManager.mjs";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
-const UnirepApp = require("@unirep-app/contracts/artifacts/contracts/AddressAttester.sol/AddressAttester.json");
+const AddressAttester = require("@unirep-app/contracts/artifacts/contracts/AddressAttester.sol/AddressAttester.json");
 
 export default ({ app, db, synchronizer }) => {
   app.post("/api/register", async (req, res) => {
@@ -18,8 +18,8 @@ export default ({ app, db, synchronizer }) => {
       let root = tree.root;
       // post root on chain
       const appContract = new ethers.Contract(
-        ATTESTERADD_ADDRESS,
-        UnirepApp.abi
+        ADDRESS_ADDRESS,
+        AddressAttester.abi
       );
       const calldata = appContract.interface.encodeFunctionData(
         "setRoot",
