@@ -1,2 +1,4 @@
 build/
 keys
+
+testdb.sqlite

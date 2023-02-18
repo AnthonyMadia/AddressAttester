@@ -1,12 +1,15 @@
 import { ethers } from "ethers";
+import _config from "../../../config.js";
 import { config } from "dotenv";
 config();
 
-// add ?? condition
-export const UNIREP_ADDRESS = process.env.UNIREP_ADDRESS;
-export const ATTESTERADD_ADDRESS = process.env.ATTESTERADD_ADDRESS;
-export const ETH_PROVIDER_URL = process.env.ETH_PROVIDER_URL;
-export const PRIVATE_KEY = process.env.PRIVATE_KEY;
+export const UNIREP_ADDRESS =
+  process.env.UNIREP_ADDRESS ?? _config.UNIREP_ADDRESS;
+export const ADDRESS_ADDRESS =
+  process.env.ADDRESS_ADDRESS ?? _config.ADDRESS_ADDRESS;
+export const ETH_PROVIDER_URL =
+  process.env.ETH_PROVIDER_URL ?? _config.ETH_PROVIDER_URL;
+export const PRIVATE_KEY = process.env.PRIVATE_KEY ?? _config.PRIVATE_KEY;
 
 export const DB_PATH = process.env.DB_PATH ?? ":memory:";
 

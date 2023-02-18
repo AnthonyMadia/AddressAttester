@@ -1,10 +1,10 @@
 import { SignupProof } from "@unirep/contracts";
 import { ethers } from "ethers";
-import { APP_ADDRESS } from "../config.mjs";
+import { ADDRESS_ADDRESS } from "../config.mjs";
 import TransactionManager from "../singletons/TransactionManager.mjs";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
-const UnirepApp = require("@unirep-app/contracts/artifacts/contracts/AddressAttester.sol/AddressAttester.json");
+const AddressAttester = require("@unirep-app/contracts/artifacts/contracts/AddressAttester.sol/AddressAttester.json");
 
 export default ({ app, db, synchronizer }) => {
   app.post("/api/signup", async (req, res) => {
@@ -26,14 +26,17 @@ export default ({ app, db, synchronizer }) => {
         return;
       }
       // make a transaction lil bish
-      const appContract = new ethers.Contract(APP_ADDRESS, UnirepApp.abi);
+      const appContract = new ethers.Contract(
+        ADDRESS_ADDRESS,
+        AddressAttester.abi
+      );
       // const contract =
       const calldata = appContract.interface.encodeFunctionData("userSignUp", [
         signupProof.publicSignals,
         signupProof.proof,
       ]);
       const hash = await TransactionManager.queueTransaction(
-        APP_ADDRESS,
+        ADDRESS_ADDRESS,
         calldata
       );
       res.json({ hash });

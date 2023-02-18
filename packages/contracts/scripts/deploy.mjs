@@ -26,7 +26,7 @@ console.log(
 
 const config = `module.exports = {
   UNIREP_ADDRESS: '${unirep.address}',
-  APP_ADDRESS: '${app.address}',
+  ADDRESS_ADDRESS: '${app.address}',
   ETH_PROVIDER_URL: '${hardhat.network.config.url ?? ""}',
   ${
     Array.isArray(hardhat.network.config.accounts)
