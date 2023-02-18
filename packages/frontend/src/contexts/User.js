@@ -49,7 +49,6 @@ class User {
       attesterId: ADDRESS_ADDRESS,
       _id: identity,
     });
-    console.log(userState);
     await userState.start();
     await userState.waitForSync();
     this.hasSignedUp = await userState.hasSignedUp();
@@ -75,7 +74,6 @@ class User {
   }
 
   async signup(message) {
-    // todo: fix this error
     const signupProof = await this.userState.genUserSignUpProof();
     const data = await fetch(`${SERVER}/api/signup`, {
       method: "POST",

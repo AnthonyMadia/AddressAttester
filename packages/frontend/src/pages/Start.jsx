@@ -32,6 +32,7 @@ export default observer(() => {
                         <div>
                             <p style={{ fontWeight: '400', lineHeight: '.5em'}}>USER ADDED!</p>
                             <Link to='/dashboard'><Button>Dashboard<span style={{marginLeft: '12px'}}><img src={require('../../public/arrow.svg')} alt="right arrow"/></span></Button></Link>
+                            <Link to='/address'><Button>Claim an address<span style={{marginLeft: '12px'}}><img src={require('../../public/arrow.svg')} alt="right arrow"/></span></Button></Link>
                         </div>
                     )}
                 </div>

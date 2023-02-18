@@ -27,7 +27,7 @@ export default ({ app, db, synchronizer }) => {
         ADDRESS_ADDRESS,
         AddressAttester.abi
       );
-      // const contract =
+      // todo: submitting address as posRep
       const calldata = appContract.interface.encodeFunctionData(
         "submitAttestation",
         [epoch, epochKeyProof.epochKey, posRep, negRep, graffiti]
