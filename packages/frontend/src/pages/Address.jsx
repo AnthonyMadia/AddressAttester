@@ -12,9 +12,8 @@ export default observer(() => {
       <h1>Claim an address</h1>
       <h2>...logic for claiming an address</h2>
       {/* allow user to click button to hash something */}
-      <Button>
-        Claim Address
-      </Button>
+      {/* todo: call address function to call relay */}
+      <Button>Claim Address</Button>
     </div>
   );
 });

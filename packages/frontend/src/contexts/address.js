@@ -10,6 +10,8 @@ class Address {
     makeAutoObservable(this);
     this.load();
   }
+
+  // todo: call relay
 }
 
 export const address = new Address();
