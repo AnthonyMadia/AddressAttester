@@ -4,7 +4,7 @@ import { ZkIdentity, Strategy, hash1, stringifyBigInts } from "@unirep/utils";
 import { UserState, schema } from "@unirep/core";
 import { MemoryConnector } from "anondb/web";
 import { constructSchema } from "anondb/types";
-import { provider, UNIREP_ADDRESS, ADDRESS_ATTESTER, SERVER } from "../config";
+import { provider, UNIREP_ADDRESS, ADDRESS_ADDRESS, SERVER } from "../config";
 import prover from "./prover";
 import poseidon from "poseidon-lite";
 
@@ -46,7 +46,7 @@ class User {
       provider,
       prover,
       unirepAddress: UNIREP_ADDRESS,
-      attesterId: ADDRESS_ATTESTER,
+      attesterId: ADDRESS_ADDRESS,
       _id: identity,
     });
     console.log(userState);
