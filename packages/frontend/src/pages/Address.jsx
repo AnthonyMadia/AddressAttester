@@ -1,19 +1,56 @@
-import React from "react";
+// todo: this is the 'App' in Alchemy's sig generator
+import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import "./dashboard.css";
-import Button from "../components/Button";
-import Tooltip from "../components/Tooltip";
 
-import User from "../contexts/User";
+import "./styles/address.css";
+import SignMessage from "../components/SignMessage.jsx";
+import VerifySignature from "../components/VerifySignature";
+import GeneratedSignatures from "../components/GeneratedSignatures";
+import WalletButton from "../components/WalletButton";
+import ErrorMessage from "../components/ErrorMessage";
+
+// import User from "../contexts/User";
+
+const INITIAL_SIGNATURES = [
+  {
+    message: "Example signed message",
+    signatureHash:
+      "0xddd2d40ef499a0ebffdfcffa6984b5009f43148b41e5d8e221b2fff0016ec3136f63b112515ad89c335bd5afa8c021013d657aaae7266bb2c5c982db24f7adad1b",
+    address: "0x5DAAC14781a5C4AF2B0673467364Cba46Da935dB",
+    timestamp: "Jan 3 2009 10:39:55",
+  },
+];
 
 export default observer(() => {
+  const [signatures, setSignatures] = useState(INITIAL_SIGNATURES);
+  const [error, setError] = useState(null);
+
+  const sigToArrHandler = (sigData) => {
+    setSignatures((prevSignatures) => {
+      return [sigData, ...prevSignatures];
+    });
+  };
+
   return (
-    <div>
-      <h1>Claim an address</h1>
-      <h2>...logic for claiming an address</h2>
-      {/* allow user to click button to hash something */}
-      {/* todo: call address function to call relay */}
-      <Button>Claim Address</Button>
+    <div className="App">
+      <ErrorMessage message={error}></ErrorMessage>
+      <div className="banner">
+        <div className="banner-container">
+          <div className="title">
+            <span>Address Attester Signature Generator/Verifier</span>
+          </div>
+          <WalletButton setError={setError} />
+        </div>
+      </div>
+      <div className="main-container">
+        <div className="upper-container">
+          <SignMessage onSubmit={sigToArrHandler} setError={setError} />
+          <VerifySignature signatures={signatures} />
+        </div>
+        <div className="lower-container">
+          <GeneratedSignatures signatures={signatures}></GeneratedSignatures>
+        </div>
+      </div>
     </div>
   );
 });

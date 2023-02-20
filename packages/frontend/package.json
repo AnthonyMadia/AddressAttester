@@ -1,14 +1,10 @@
 {
-  "name": "@unirep-app/frontend",
+  "name": "@addressattester/frontend",
   "version": "1.0.0",
-  "description": "> TODO: description",
-  "author": "Ya-wen, Jeng <vivi432@yahoo.com.tw>",
-  "homepage": "https://github.com/vivianjeng/create-unirep-app#readme",
+  "description": "Allow users to prove control over address in zk using a Unirep Attester",
+  "author": "Anthony Madia",
+  "homepage": "https://github.com/anthonymadia/addressattester",
   "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vivianjeng/create-unirep-app.git"
-  },
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack"

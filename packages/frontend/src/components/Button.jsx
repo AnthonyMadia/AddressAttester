@@ -1,5 +1,5 @@
 import React from 'react'
-import './button.css'
+import './styles/button.css'
 
 export default ({ style, children, loadingText, onClick }) => {
   const [loading, setLoading] = React.useState(false)

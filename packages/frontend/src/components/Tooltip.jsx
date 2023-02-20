@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import measureText from '../utils/measure-text'
-import './tooltip.css'
+import './styles/tooltip.css'
 import UIContext from '../contexts/interface'
 import { observer } from 'mobx-react-lite'
 
