@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import { observer } from 'mobx-react-lite'
-import './start.css'
+import './styles/start.css'
 import Tooltip from '../components/Tooltip';
 import Button from '../components/Button'
 

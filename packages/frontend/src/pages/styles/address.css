@@ -1,0 +1,77 @@
+.App {
+  text-align: center;
+  margin: auto;
+  margin-top: 5vh;
+  margin-bottom: 3vh;
+  width: 70vw;
+}
+
+.banner {
+  align-items: center;
+  width: 70vw;
+  height: 70px;
+  background-color: #a0d8db;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  min-width: 600px;
+}
+
+.banner-container {
+  margin-right: 1.5vw;
+  margin-left: 1.5vw;
+  min-width: 500px;
+}
+
+.title {
+  float: left;
+  color: white;
+  font-size: 2rem;
+  font-weight: 500;
+  margin-top: 7px;
+}
+
+.main-container {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: rgb(215, 215, 215);
+  width: auto;
+  height: auto;
+  padding-bottom: 2vh;
+  min-width: 600px;
+}
+
+.upper-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2vw;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.lower-container {
+  margin: auto;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+@media only screen and (max-width: 1450px) {
+  .upper-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0px;
+  }
+}

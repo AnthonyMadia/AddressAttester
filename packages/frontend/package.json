@@ -1,7 +1,7 @@
 {
-  "name": "@unirep-app/frontend",
+  "name": "@addressattester/frontend",
   "version": "1.0.0",
-  "description": "> TODO: description",
+  "description": "Allow users to prove control over address in zk using a Unirep Attester",
   "author": "Ya-wen, Jeng <vivi432@yahoo.com.tw>",
   "homepage": "https://github.com/vivianjeng/create-unirep-app#readme",
   "license": "ISC",
