@@ -90,14 +90,22 @@ class User {
     this.hasSignedUp = await this.userState.hasSignedUp();
     this.latestTransitionedEpoch = this.userState.calcCurrentEpoch();
   }
-
-  async requestReputation(posRep, negRep, graffitiPreImage, epkNonce) {
+  // posRep is address
+  // signature is needed for isValidFunction
+  async requestReputation(
+    posRep,
+    negRep,
+    graffitiPreImage,
+    epkNonce,
+    signature
+  ) {
     const epochKeyProof = await this.userState.genEpochKeyProof({
       nonce: epkNonce,
     });
     const graffiti = hash1([
       `0x${Buffer.from(graffitiPreImage.toString()).toString("hex")}`,
     ]);
+    console.log(graffiti);
     const data = await fetch(`${SERVER}/api/request`, {
       method: "POST",
       headers: {
@@ -108,11 +116,13 @@ class User {
           posRep,
           negRep,
           graffiti,
+          signature,
           publicSignals: epochKeyProof.publicSignals,
           proof: epochKeyProof.proof,
         })
       ),
     }).then((r) => r.json());
+    console.log(data);
     await provider.waitForTransaction(data.hash);
     await this.userState.waitForSync();
     await this.loadReputation();

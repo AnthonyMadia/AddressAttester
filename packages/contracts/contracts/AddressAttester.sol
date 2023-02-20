@@ -22,7 +22,6 @@ contract AddressAttester {
         unirep.userSignUp(publicSignals, proof);
     }
 
-    // verify signature use for relayer
     // NOTE: This method not safe, contract may attack by signature replay.
     /**
      * Verify if the signer has a valid signature as claimed
@@ -35,7 +34,6 @@ contract AddressAttester {
         returns (bool)
     {
         // Attester signs over it's own address concatenated with this contract address
-        // todo: this should be a unique value and not text they would use somewhere else
         bytes32 messageHash = keccak256(
             abi.encodePacked(
                 '\x19Ethereum Signed Message:\n32',

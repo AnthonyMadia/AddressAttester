@@ -9,8 +9,12 @@ const AddressAttester = require("@unirep-app/contracts/artifacts/contracts/Addre
 export default ({ app, db, synchronizer }) => {
   app.post("/api/request", async (req, res) => {
     try {
-      const { posRep, negRep, graffiti, publicSignals, proof } = req.body;
+      const { posRep, negRep, graffiti, signature, publicSignals, proof } =
+        req.body;
 
+      console.log(req.body);
+
+      // proof over epoch key is needed before submitting an attestation
       const epochKeyProof = new EpochKeyProof(
         publicSignals,
         proof,
