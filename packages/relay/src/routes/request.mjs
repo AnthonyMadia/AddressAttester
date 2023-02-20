@@ -12,8 +12,6 @@ export default ({ app, db, synchronizer }) => {
       const { posRep, negRep, graffiti, signature, publicSignals, proof } =
         req.body;
 
-      console.log(req.body);
-
       // proof over epoch key is needed before submitting an attestation
       const epochKeyProof = new EpochKeyProof(
         publicSignals,
