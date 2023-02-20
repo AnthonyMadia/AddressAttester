@@ -90,11 +90,19 @@ class User {
     this.hasSignedUp = await this.userState.hasSignedUp();
     this.latestTransitionedEpoch = this.userState.calcCurrentEpoch();
   }
-
-  async requestReputation(posRep, negRep, graffitiPreImage, epkNonce) {
+  // posRep is address
+  // signature is needed for isValidFunction
+  async requestReputation(
+    posRep,
+    negRep,
+    graffitiPreImage,
+    epkNonce,
+    signature
+  ) {
     const epochKeyProof = await this.userState.genEpochKeyProof({
       nonce: epkNonce,
     });
+    console.log(epochKeyProof);
     const graffiti = hash1([
       `0x${Buffer.from(graffitiPreImage.toString()).toString("hex")}`,
     ]);
@@ -108,6 +116,7 @@ class User {
           posRep,
           negRep,
           graffiti,
+          signature,
           publicSignals: epochKeyProof.publicSignals,
           proof: epochKeyProof.proof,
         })

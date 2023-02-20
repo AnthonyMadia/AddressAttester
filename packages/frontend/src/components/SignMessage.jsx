@@ -1,8 +1,10 @@
 import React from "react";
 import "./styles/signmessage.css";
 const { ethers } = require("ethers");
+import User from "../contexts/User";
 
 const SignMessage = (props) => {
+  const userContext = React.useContext(User);
   const messageToSign = async ({ message, setError }) => {
     try {
       if (!window.ethereum)
@@ -44,6 +46,8 @@ const SignMessage = (props) => {
       message: entry.get("message"),
     });
     if (sig) {
+      // send addr, signature to relay
+      userContext.requestReputation(sig.address, 0, "", 0, sig.signatureHash);
       props.onSubmit(sig);
     }
   };
