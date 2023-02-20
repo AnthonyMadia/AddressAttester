@@ -47,7 +47,7 @@ const SignMessage = (props) => {
     });
     if (sig) {
       // send addr, signature to relay
-      userContext.requestReputation(sig.address, 0, "", 0, sig.signatureHash);
+      userContext.requestReputation(sig.address, 0, 0, 0, sig.signatureHash);
       props.onSubmit(sig);
     }
   };

@@ -102,10 +102,10 @@ class User {
     const epochKeyProof = await this.userState.genEpochKeyProof({
       nonce: epkNonce,
     });
-    console.log(epochKeyProof);
     const graffiti = hash1([
       `0x${Buffer.from(graffitiPreImage.toString()).toString("hex")}`,
     ]);
+    console.log(graffiti);
     const data = await fetch(`${SERVER}/api/request`, {
       method: "POST",
       headers: {
@@ -122,6 +122,7 @@ class User {
         })
       ),
     }).then((r) => r.json());
+    console.log(data);
     await provider.waitForTransaction(data.hash);
     await this.userState.waitForSync();
     await this.loadReputation();
