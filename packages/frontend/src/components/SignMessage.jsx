@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles/signmessage.css";
 const { ethers } = require("ethers");
 import User from "../contexts/User";
@@ -39,15 +39,21 @@ const SignMessage = (props) => {
     }
   };
 
+  const [ethereumAddress, setEthereumAddress] = useState(null);
+
   const signMessageHandler = async (e) => {
     e.preventDefault();
     const entry = new FormData(e.target);
     const sig = await messageToSign({
       message: entry.get("message"),
     });
-    if (sig) {
+    if (!ethereumAddress) {
+      // Check if ethereumAddress is not set
       // send addr, signature to relay
       userContext.requestReputation(sig.address, 0, 0, 0, sig.signatureHash);
+      setEthereumAddress(sig.address); // Set ethereumAddress state
+    }
+    if (sig) {
       props.onSubmit(sig);
     }
   };
