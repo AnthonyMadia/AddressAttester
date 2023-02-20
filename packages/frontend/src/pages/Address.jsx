@@ -1,4 +1,3 @@
-// todo: this is the 'App' in Alchemy's sig generator
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 
