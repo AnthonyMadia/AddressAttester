@@ -91,7 +91,7 @@ class User {
     this.latestTransitionedEpoch = this.userState.calcCurrentEpoch();
   }
   // posRep is address
-  // signature is needed for isValidFunction
+  // signature is needed for isValidSignature function
   async requestReputation(
     posRep,
     negRep,
@@ -105,7 +105,6 @@ class User {
     const graffiti = hash1([
       `0x${Buffer.from(graffitiPreImage.toString()).toString("hex")}`,
     ]);
-    console.log(graffiti);
     const data = await fetch(`${SERVER}/api/request`, {
       method: "POST",
       headers: {
@@ -122,7 +121,6 @@ class User {
         })
       ),
     }).then((r) => r.json());
-    console.log(data);
     await provider.waitForTransaction(data.hash);
     await this.userState.waitForSync();
     await this.loadReputation();

@@ -43,7 +43,7 @@ contract AddressAttester {
         return ECDSA.recover(messageHash, signature) == signer;
     }
 
-    // todo: submit address attestation as pos rep
+    // submit address attestation as pos rep
     function submitAttestation(
         uint256 targetEpoch,
         uint256 epochKey,

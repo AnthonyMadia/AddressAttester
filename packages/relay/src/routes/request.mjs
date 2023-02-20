@@ -12,7 +12,7 @@ export default ({ app, db, synchronizer }) => {
       const { posRep, negRep, graffiti, signature, publicSignals, proof } =
         req.body;
 
-      console.log(req.body);
+      console.log(posRep, signature);
 
       // proof over epoch key is needed before submitting an attestation
       const epochKeyProof = new EpochKeyProof(
@@ -31,7 +31,18 @@ export default ({ app, db, synchronizer }) => {
         ADDRESS_ADDRESS,
         AddressAttester.abi
       );
-      // todo: submitting address as posRep
+
+      // call isValidSignature to verify signer & signature on-chain
+      const addrCalldata = appContract.interface.encodeFunctionData(
+        "isValidSignature",
+        [posRep, signature]
+      );
+      const addrHash = await TransactionManager.queueTransaction(
+        ADDRESS_ADDRESS,
+        addrCalldata
+      );
+
+      // submitting address as posRep to epochKey
       const calldata = appContract.interface.encodeFunctionData(
         "submitAttestation",
         [epoch, epochKeyProof.epochKey, posRep, negRep, graffiti]
@@ -40,6 +51,7 @@ export default ({ app, db, synchronizer }) => {
         ADDRESS_ADDRESS,
         calldata
       );
+
       res.json({ hash });
     } catch (error) {
       res.status(500).json({ error });

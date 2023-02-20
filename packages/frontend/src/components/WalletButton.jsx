@@ -96,7 +96,7 @@ const WalletButton = ({ setError }) => {
     <div>
       <button className="wallet-button" onClick={walletConnectHandler}>
         {/* rerender on walletAddress state */}
-        {walletAddress.length > 0 ? (
+        {walletAddress && walletAddress.length > 0 ? (
           String(walletAddress).substring(0, 6) +
           "..." +
           String(walletAddress).substring(38)
