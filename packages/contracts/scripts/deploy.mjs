@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import url from 'url'
 import { createRequire } from 'module'
-import { deployUnirep } from '@unirep/contracts/deploy'
+import { deployUnirep } from '@unirep/contracts/deploy/index.js'
 import hardhat from 'hardhat'
 const { ethers } = hardhat
 
