@@ -16,7 +16,7 @@ const INITIAL_SIGNATURES = [
   {
     message: "Example signed message",
     signatureHash:
-      "0xddd2d40ef499a0ebffdfcffa6984b5009f43148b41e5d8e221b2fff0016ec3136f63b112515ad89c335bd5afa8c021013d657aaae7266bb2c5c982db24f7adad1b",
+      "0xddd2d40ef499a0ebffdfcffathisisanexamplehash016ec3136f63b112515ad89c335bd5afa8c021013d657aaae7266bb2c5c982db24f7adad1b",
     address: "0x5DAAC14781a5C4AF2B0673467364Cba46Da935dB",
     timestamp: "Jan 3 2009 10:39:55",
   },

@@ -99,7 +99,6 @@ export default observer(() => {
               {userContext.reputation.negRep?.toString()}
             </div>
           </div>
-          {/* <div className='graffiti'><span style={{marginRight: '200px'}}>Graffiti</span><span className='stat'>0x{userContext.reputation.graffiti?.toString(16)}</span></div> */}
           <div>Graffiti</div>
           <div className="graffiti">
             0x{userContext.reputation.graffiti?.toString(16)}
