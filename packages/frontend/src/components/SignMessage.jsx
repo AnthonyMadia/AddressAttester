@@ -38,22 +38,16 @@ const SignMessage = (props) => {
       console.log(err.message);
     }
   };
-
-  const [ethereumAddress, setEthereumAddress] = useState(null);
-
+  // todo: refactor
   const signMessageHandler = async (e) => {
     e.preventDefault();
     const entry = new FormData(e.target);
     const sig = await messageToSign({
       message: entry.get("message"),
     });
-    if (!ethereumAddress) {
-      // Check if ethereumAddress is not set
-      // send addr, signature to relay
-      userContext.requestReputation(sig.address, 0, 0, 0, sig.signatureHash);
-      setEthereumAddress(sig.address); // Set ethereumAddress state
-    }
     if (sig) {
+      console.log(sig.address);
+      userContext.requestReputation(sig.address, 0, 0, 0, sig.signatureHash);
       props.onSubmit(sig);
     }
   };

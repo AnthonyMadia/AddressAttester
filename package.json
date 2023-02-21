@@ -1,6 +1,6 @@
 {
   "name": "AddressAttester",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
   "private": true,
@@ -11,9 +11,17 @@
     "install": "lerna bootstrap",
     "contracts": "yarn workspace @unirep-app/contracts run",
     "frontend": "yarn workspace @unirep-app/frontend run",
-    "relay": "yarn workspace @unirep-app/relay run"
+    "relay": "yarn workspace @unirep-app/relay run",
+    "start": "node scripts/start.mjs",
+    "linkUnirep": "sh ./scripts/linkUnirep.sh",
+    "copyUnirep": "sh ./scripts/copyUnirep.sh",
+    "lint": "prettier ."
   },
   "devDependencies": {
-    "lerna": "^6.0.1"
+    "lerna": "^6.0.1",
+    "node-fetch": "^3.3.0"
+  },
+  "dependencies": {
+    "prettier": "^2.8.4"
   }
 }
