@@ -127,7 +127,6 @@ class User {
   }
 
   async stateTransition() {
-    console.log('hello')
     await this.userState.waitForSync();
     const signupProof = await this.userState.genUserStateTransitionProof();
     const data = await fetch(`${SERVER}/api/transition`, {
