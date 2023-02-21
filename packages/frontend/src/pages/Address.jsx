@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { observer } from "mobx-react-lite";
 
 import "./styles/address.css";
@@ -8,7 +10,7 @@ import GeneratedSignatures from "../components/GeneratedSignatures";
 import WalletButton from "../components/WalletButton";
 import ErrorMessage from "../components/ErrorMessage";
 
-// import User from "../contexts/User";
+import User from "../contexts/User";
 
 const INITIAL_SIGNATURES = [
   {
@@ -23,6 +25,8 @@ const INITIAL_SIGNATURES = [
 export default observer(() => {
   const [signatures, setSignatures] = useState(INITIAL_SIGNATURES);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const userContext = useContext(User);
 
   const sigToArrHandler = (sigData) => {
     setSignatures((prevSignatures) => {
@@ -30,8 +34,15 @@ export default observer(() => {
     });
   };
 
+  const handleBack = () => {
+    navigate("/"); // navigate back to previous page
+  };
+
   return (
     <div className="App">
+      <button className="back-button" onClick={handleBack}>
+        Back
+      </button>
       <ErrorMessage message={error}></ErrorMessage>
       <div className="banner">
         <div className="banner-container">
