@@ -35,7 +35,7 @@ export default observer(() => {
   };
 
   const handleBack = () => {
-    navigate("/"); // navigate back to previous page
+    navigate("/");
   };
 
   return (
