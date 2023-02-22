@@ -1,47 +1,46 @@
-import React, { useState } from "react";
-import "./styles/verifysignature.css";
-import SuccessMessage from "./SuccessMessage";
-import ErrorMessage from "./ErrorMessage";
-const { ethers } = require("ethers");
-const { hashMessage } = require("@ethersproject/hash");
+import React, { useState } from 'react'
+import './styles/verifysignature.css'
+import SuccessMessage from './SuccessMessage'
+import ErrorMessage from './ErrorMessage'
+const { ethers } = require('ethers')
+const { hashMessage } = require('@ethersproject/hash')
 
 const VerifyMessage = () => {
-  const [error, setError] = useState();
-  const [success, setSuccess] = useState();
+  const [error, setError] = useState()
+  const [success, setSuccess] = useState()
 
   const signatureToVerify = async ({ address, message, signature }) => {
     try {
       const signerAddr = ethers.utils.recoverAddress(
         hashMessage(message),
         signature
-      );
-      console.log(signerAddr);
+      )
       if (signerAddr !== address) {
-        return false;
+        return false
       }
-      return true;
+      return true
     } catch (err) {
-      console.log(err);
-      return false;
+      console.log(err)
+      return false
     }
-  };
+  }
   const verifySignatureHandler = async (e) => {
-    e.preventDefault();
-    const entry = new FormData(e.target);
-    setSuccess();
-    setError();
+    e.preventDefault()
+    const entry = new FormData(e.target)
+    setSuccess()
+    setError()
     const verify = await signatureToVerify({
-      address: entry.get("address"),
-      message: entry.get("message"),
-      signature: entry.get("signature"),
-    });
+      address: entry.get('address'),
+      message: entry.get('message'),
+      signature: entry.get('signature'),
+    })
 
     if (verify) {
-      setSuccess("Valid signature!");
+      setSuccess('Valid signature!')
     } else {
-      setError("Invalid signature");
+      setError('Invalid signature')
     }
-  };
+  }
   return (
     <div className="card1">
       <div className="banner-sign">
@@ -93,7 +92,7 @@ const VerifyMessage = () => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default VerifyMessage;
+export default VerifyMessage

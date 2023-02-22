@@ -1,165 +1,161 @@
-import { createContext } from "react";
-import { makeAutoObservable } from "mobx";
-import { ZkIdentity, Strategy, hash1, stringifyBigInts } from "@unirep/utils";
-import { UserState, schema } from "@unirep/core";
-import { MemoryConnector } from "anondb/web";
-import { constructSchema } from "anondb/types";
-import { provider, UNIREP_ADDRESS, ADDRESS_ADDRESS, SERVER } from "../config";
-import prover from "./prover";
-import poseidon from "poseidon-lite";
+import { createContext } from 'react'
+import { makeAutoObservable } from 'mobx'
+import { ZkIdentity, Strategy, hash1, stringifyBigInts } from '@unirep/utils'
+import { UserState, schema } from '@unirep/core'
+import { MemoryConnector } from 'anondb/web'
+import { constructSchema } from 'anondb/types'
+import { provider, UNIREP_ADDRESS, ADDRESS_ADDRESS, SERVER } from '../config'
+import prover from './prover'
+import poseidon from 'poseidon-lite'
 
 class User {
-  currentEpoch;
-  latestTransitionedEpoch;
-  hasSignedUp = false;
-  reputation = {
-    posRep: 0,
-    negRep: 0,
-    graffiti: 0,
-    timestamp: 0,
-  };
-  provableReputation = {
-    posRep: 0,
-    negRep: 0,
-    graffiti: 0,
-    timestamp: 0,
-  };
+  currentEpoch
+  latestTransitionedEpoch
+  hasSignedUp = false
+  data = []
+  provableData = []
+  userState = null
 
   constructor() {
-    makeAutoObservable(this);
-    this.load();
+    makeAutoObservable(this)
+    this.load()
   }
 
   async load() {
-    const id = localStorage.getItem("id");
+    const id = localStorage.getItem('id')
     const identity = new ZkIdentity(
       id ? Strategy.SERIALIZED : Strategy.RANDOM,
       id
-    );
+    )
     if (!id) {
-      localStorage.setItem("id", identity.serializeIdentity());
+      localStorage.setItem('id', identity.serializeIdentity())
     }
 
-    const db = new MemoryConnector(constructSchema(schema));
     const userState = new UserState({
-      db,
       provider,
       prover,
       unirepAddress: UNIREP_ADDRESS,
       attesterId: ADDRESS_ADDRESS,
       _id: identity,
-    });
-    await userState.start();
-    await userState.waitForSync();
-    this.hasSignedUp = await userState.hasSignedUp();
-    this.userState = userState;
-    await this.loadReputation();
+    })
+    await userState.sync.start()
+    this.userState = userState
+    await userState.waitForSync()
+    this.hasSignedUp = await userState.hasSignedUp()
+    await this.loadReputation()
     this.latestTransitionedEpoch =
-      await this.userState.latestTransitionedEpoch();
+      await this.userState.latestTransitionedEpoch()
   }
 
-  // TODO: make this non-async
-  async epochKey(nonce) {
-    if (!this.userState) return "0x";
-    const epoch = this.userState.calcCurrentEpoch();
-    const keys = await this.userState.getEpochKeys(epoch);
-    const key = keys[nonce];
-    return `0x${key.toString(16)}`;
+  get fieldCount() {
+    return this.userState?.sync.settings.fieldCount
+  }
+
+  get sumFieldCount() {
+    return this.userState?.sync.settings.sumFieldCount
+  }
+
+  epochKey(nonce) {
+    if (!this.userState) return '0x'
+    const epoch = this.userState.sync.calcCurrentEpoch()
+    const keys = this.userState.getEpochKeys(epoch)
+    const key = keys[nonce]
+    return `0x${key.toString(16)}`
   }
 
   async loadReputation() {
-    const epoch = this.userState.calcCurrentEpoch();
-    this.reputation = await this.userState.getRepByAttester(null, epoch + 1);
-    this.provableReputation = await this.userState.getRepByAttester();
+    this.data = await this.userState.getData()
+    this.provableData = await this.userState.getProvableData()
   }
 
   async signup(message) {
-    const signupProof = await this.userState.genUserSignUpProof();
+    const signupProof = await this.userState.genUserSignUpProof()
     const data = await fetch(`${SERVER}/api/signup`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "content-type": "application/json",
+        'content-type': 'application/json',
       },
       body: JSON.stringify({
         publicSignals: signupProof.publicSignals,
         proof: signupProof.proof,
       }),
-    }).then((r) => r.json());
-    await provider.waitForTransaction(data.hash);
-    await this.userState.waitForSync();
-    this.hasSignedUp = await this.userState.hasSignedUp();
-    this.latestTransitionedEpoch = this.userState.calcCurrentEpoch();
+    }).then((r) => r.json())
+    await provider.waitForTransaction(data.hash)
+    await this.userState.waitForSync()
+    this.hasSignedUp = await this.userState.hasSignedUp()
+    this.latestTransitionedEpoch = this.userState.sync.calcCurrentEpoch()
   }
-  // posRep is address
-  // signature is needed for isValidSignature function
-  async requestReputation(
-    posRep,
-    negRep,
-    graffitiPreImage,
-    epkNonce,
-    signature
-  ) {
+  // todo: verify address is coming in
+  async requestReputation(reqData, epkNonce, signature) {
+    for (const key of Object.keys(reqData)) {
+      if (reqData[key] === '') {
+        delete reqData[key]
+        continue
+      }
+      if (+key > this.sumFieldCount && +key % 2 !== this.sumFieldCount % 2) {
+        throw new Error('Cannot change timestamp field')
+      }
+    }
     const epochKeyProof = await this.userState.genEpochKeyProof({
       nonce: epkNonce,
-    });
-    const graffiti = hash1([
-      `0x${Buffer.from(graffitiPreImage.toString()).toString("hex")}`,
-    ]);
+    })
     const data = await fetch(`${SERVER}/api/request`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "content-type": "application/json",
+        'content-type': 'application/json',
       },
       body: JSON.stringify(
         stringifyBigInts({
-          posRep,
-          negRep,
-          graffiti,
+          reqData,
           signature,
           publicSignals: epochKeyProof.publicSignals,
           proof: epochKeyProof.proof,
         })
       ),
-    }).then((r) => r.json());
-    await provider.waitForTransaction(data.hash);
-    await this.userState.waitForSync();
-    await this.loadReputation();
+    }).then((r) => r.json())
+    await provider.waitForTransaction(data.hash)
+    await this.userState.waitForSync()
+    await this.loadReputation()
   }
 
   async stateTransition() {
-    await this.userState.waitForSync();
-    const signupProof = await this.userState.genUserStateTransitionProof();
+    const sealed = await this.userState.sync.isEpochSealed(
+      await this.userState.latestTransitionedEpoch()
+    )
+    if (!sealed) {
+      throw new Error('From epoch is not yet sealed')
+    }
+    await this.userState.waitForSync()
+    const signupProof = await this.userState.genUserStateTransitionProof()
     const data = await fetch(`${SERVER}/api/transition`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "content-type": "application/json",
+        'content-type': 'application/json',
       },
       body: JSON.stringify({
         publicSignals: signupProof.publicSignals,
         proof: signupProof.proof,
       }),
-    }).then((r) => r.json());
-    await provider.waitForTransaction(data.hash);
-    await this.userState.waitForSync();
-    await this.loadReputation();
+    }).then((r) => r.json())
+    await provider.waitForTransaction(data.hash)
+    await this.userState.waitForSync()
+    await this.loadReputation()
     this.latestTransitionedEpoch =
-      await this.userState.latestTransitionedEpoch();
+      await this.userState.latestTransitionedEpoch()
   }
 
   async proveReputation(minRep = 0, _graffitiPreImage = 0) {
-    let graffitiPreImage = _graffitiPreImage;
-    if (typeof graffitiPreImage === "string") {
-      graffitiPreImage = poseidon([
-        `0x${Buffer.from(_graffitiPreImage).toString("hex")}`,
-      ]);
+    let graffitiPreImage = _graffitiPreImage
+    if (typeof graffitiPreImage === 'string') {
+      graffitiPreImage = `0x${Buffer.from(_graffitiPreImage).toString('hex')}`
     }
     const reputationProof = await this.userState.genProveReputationProof({
       epkNonce: 0,
       minRep: Number(minRep),
       graffitiPreImage,
-    });
-    return { ...reputationProof, valid: await reputationProof.verify() };
+    })
+    return { ...reputationProof, valid: await reputationProof.verify() }
   }
 }
 
-export default createContext(new User());
+export default createContext(new User())
