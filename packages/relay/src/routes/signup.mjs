@@ -1,5 +1,5 @@
-import { SignupProof } from '@unirep/circuits'
 import { ethers } from 'ethers'
+import { SignupProof } from '@unirep/circuits'
 import { ADDRESS_ADDRESS } from '../config.mjs'
 import TransactionManager from '../singletons/TransactionManager.mjs'
 import { createRequire } from 'module'
@@ -15,6 +15,7 @@ export default ({ app, db, synchronizer }) => {
         proof,
         synchronizer.prover
       )
+
       const valid = await signupProof.verify()
       if (!valid) {
         res.status(400).json({ error: 'Invalid proof' })

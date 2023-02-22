@@ -11,8 +11,6 @@ export default ({ app, db, synchronizer }) => {
     try {
       const { reqData, signature, publicSignals, proof } = req.body
 
-      console.log(reqData[0], signature)
-
       // proof over epoch key is needed before submitting an attestation
       const epochKeyProof = new EpochKeyProof(
         publicSignals,
@@ -41,7 +39,6 @@ export default ({ app, db, synchronizer }) => {
       )
 
       const keys = Object.keys(reqData)
-      console.log('inputs to submitAttestation: ', keys[0], reqData[keys[0]])
       let calldata
       if (keys.length === 1) {
         console.log('first condition', reqData[keys[0]])
@@ -57,7 +54,7 @@ export default ({ app, db, synchronizer }) => {
       }
 
       const hash = await TransactionManager.queueTransaction(
-        APP_ADDRESS,
+        ADDRESS_ADDRESS,
         calldata
       )
 

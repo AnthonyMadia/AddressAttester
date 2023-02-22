@@ -13,7 +13,7 @@ const UnirepApp = require('../abi/AddressAttester.json')
 
 const [signer] = await ethers.getSigners()
 const unirep = await deployUnirep(signer)
-const epochLength = 100
+const epochLength = 1000
 
 const App = await ethers.getContractFactory('AddressAttester')
 const app = await App.deploy(unirep.address, epochLength)

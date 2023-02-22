@@ -87,7 +87,6 @@ class User {
   }
   // todo: verify address is coming in
   async requestReputation(reqData, epkNonce, signature) {
-    console.log('input to requestReputation: ', reqData, epkNonce, signature)
     for (const key of Object.keys(reqData)) {
       if (reqData[key] === '') {
         delete reqData[key]
@@ -114,7 +113,6 @@ class User {
         })
       ),
     }).then((r) => r.json())
-    console.log(data.hash)
     await provider.waitForTransaction(data.hash)
     await this.userState.waitForSync()
     await this.loadReputation()
