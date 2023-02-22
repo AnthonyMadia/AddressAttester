@@ -1745,14 +1745,6 @@
   dependencies:
     "@types/node" "*"
 
-"@unirep/circuits@2.0.0-alpha-1":
-  version "2.0.0-alpha-1"
-  resolved "https://registry.yarnpkg.com/@unirep/circuits/-/circuits-2.0.0-alpha-1.tgz#43021a3c995be039a59415ff1c10e7030c3f6647"
-  integrity sha512-fnFOJrKwb6i5WE2HkPwslYJaSAwuKK4p8KUecFO9s5k7+SO9LY3YoKy5ppJPanW9mxrswUd2SGyXOsbPI/9hmQ==
-  dependencies:
-    "@unirep/utils" "2.0.0-alpha-1"
-    snarkjs "^0.5.0"
-
 "@unirep/circuits@2.0.0-beta-1", "@unirep/circuits@^2.0.0-beta-1":
   version "2.0.0-beta-1"
   resolved "https://registry.yarnpkg.com/@unirep/circuits/-/circuits-2.0.0-beta-1.tgz#509032805a061ce504352a65c5bc1b8c21a8d71f"
@@ -1761,18 +1753,6 @@
     "@ethersproject/solidity" "^5.7.0"
     "@unirep/utils" "2.0.0-beta-1"
     snarkjs "^0.5.0"
-
-"@unirep/contracts@2.0.0-alpha-2":
-  version "2.0.0-alpha-2"
-  resolved "https://registry.yarnpkg.com/@unirep/contracts/-/contracts-2.0.0-alpha-2.tgz#711a7b5069af382daf1e8d2d602ed36435184628"
-  integrity sha512-kNb0SNhOYFsPXWKZnW9xQfT+lzv48T2W/Bss1TgxuCa8mw79RPN9pleaTxbDNhlGSBxB3jGONY+ixRQNOSdp+Q==
-  dependencies:
-    "@unirep/circuits" "2.0.0-alpha-1"
-    "@unirep/utils" "2.0.0-alpha-1"
-    "@zk-kit/incremental-merkle-tree.sol" "^1.2.0"
-    circomlibjs "0.0.8"
-    ethers "^5.6.8"
-    solc "^0.8.16"
 
 "@unirep/contracts@2.0.0-beta-1", "@unirep/contracts@^2.0.0-beta-1":
   version "2.0.0-beta-1"
@@ -1786,18 +1766,6 @@
     ethers "^5.6.8"
     poseidon-solidity "^0.0.3"
     solc "^0.8.16"
-
-"@unirep/core@2.0.0-alpha-2":
-  version "2.0.0-alpha-2"
-  resolved "https://registry.yarnpkg.com/@unirep/core/-/core-2.0.0-alpha-2.tgz#e45eaf6917fb7b71785ab102dce0bf3d6527a037"
-  integrity sha512-cvUUOKOga1F3D8FdhjEUtbHoYU3wOyQijavThPnK3ndq4OKJ5sc6Ixwgz1Z2owoxWZ1l+2NTN7oLqiPPcjENNQ==
-  dependencies:
-    "@unirep/circuits" "2.0.0-alpha-1"
-    "@unirep/contracts" "2.0.0-alpha-2"
-    "@unirep/utils" "2.0.0-alpha-1"
-    anondb "^0.0.16"
-    ethers "^5.6.8"
-    nanoid "3"
 
 "@unirep/core@^2.0.0-beta-1":
   version "2.0.0-beta-1"
@@ -1820,15 +1788,6 @@
     "@zk-kit/incremental-merkle-tree" "^0.4.3"
     circomlibjs "0.0.8"
     maci-crypto "^0.9.1"
-
-"@unirep/utils@2.0.0-alpha-1":
-  version "2.0.0-alpha-1"
-  resolved "https://registry.yarnpkg.com/@unirep/utils/-/utils-2.0.0-alpha-1.tgz#d660a145ed9b630f5b73cdbb2986292362f5a43f"
-  integrity sha512-PueCGuertErzPOzf5idPrKVt5g8/4LCCGH7PqfFUIu0MJ1sz+dNNhrEGF+1+jGl1tzz6NXQuTVb9KxwSZVsTMw==
-  dependencies:
-    "@zk-kit/incremental-merkle-tree" "^0.4.3"
-    maci-crypto "^0.9.1"
-    poseidon-lite "^0.0.2"
 
 "@unirep/utils@2.0.0-beta-1", "@unirep/utils@^2.0.0-beta-1":
   version "2.0.0-beta-1"
