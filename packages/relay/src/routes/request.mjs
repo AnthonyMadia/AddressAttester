@@ -9,10 +9,9 @@ const AddressAttester = require('@unirep-app/contracts/artifacts/contracts/Addre
 export default ({ app, db, synchronizer }) => {
   app.post('/api/request', async (req, res) => {
     try {
-      // todo: posRep, negRep, graffiti = reqData
       const { reqData, signature, publicSignals, proof } = req.body
 
-      console.log(reqData, signature)
+      console.log(reqData[0], signature)
 
       // proof over epoch key is needed before submitting an attestation
       const epochKeyProof = new EpochKeyProof(
@@ -34,7 +33,7 @@ export default ({ app, db, synchronizer }) => {
       // call isValidSignature to verify signer & signature on-chain
       const addrCalldata = appContract.interface.encodeFunctionData(
         'isValidSignature',
-        [posRep, signature]
+        [reqData[0], signature]
       )
       const addrHash = await TransactionManager.queueTransaction(
         ADDRESS_ADDRESS,
@@ -42,8 +41,10 @@ export default ({ app, db, synchronizer }) => {
       )
 
       const keys = Object.keys(reqData)
+      console.log('inputs to submitAttestation: ', keys[0], reqData[keys[0]])
       let calldata
       if (keys.length === 1) {
+        console.log('first condition', reqData[keys[0]])
         calldata = appContract.interface.encodeFunctionData(
           'submitAttestation',
           [epochKeyProof.epochKey, epoch, keys[0], reqData[keys[0]]]
@@ -55,15 +56,10 @@ export default ({ app, db, synchronizer }) => {
         )
       }
 
-      // // submitting address as posRep to epochKey
-      // const calldata = appContract.interface.encodeFunctionData(
-      //   'submitAttestation',
-      //   [epoch, epochKeyProof.epochKey, posRep, negRep, graffiti]
-      // )
-      // const hash = await TransactionManager.queueTransaction(
-      //   ADDRESS_ADDRESS,
-      //   calldata
-      // )
+      const hash = await TransactionManager.queueTransaction(
+        APP_ADDRESS,
+        calldata
+      )
 
       res.json({ hash })
     } catch (error) {

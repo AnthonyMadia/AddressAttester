@@ -46,7 +46,11 @@ const SignMessage = (props) => {
       message: entry.get('message'),
     })
     if (sig) {
-      userContext.requestReputation([sig.address], 0, sig.signatureHash)
+      await userContext.requestReputation(
+        { 0: sig.address },
+        0,
+        sig.signatureHash
+      )
       props.onSubmit(sig)
     }
   }
