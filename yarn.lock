@@ -1753,7 +1753,7 @@
     "@unirep/utils" "2.0.0-alpha-1"
     snarkjs "^0.5.0"
 
-"@unirep/circuits@2.0.0-beta-1":
+"@unirep/circuits@2.0.0-beta-1", "@unirep/circuits@^2.0.0-beta-1":
   version "2.0.0-beta-1"
   resolved "https://registry.yarnpkg.com/@unirep/circuits/-/circuits-2.0.0-beta-1.tgz#509032805a061ce504352a65c5bc1b8c21a8d71f"
   integrity sha512-JxIRGuTgMKsjNMpsrbJvG36TwmkYxi3uz6aiokmpXGf91NP+X2ZtB6ZNqSUvJv8iMvyAjfCSPfmm/zAQ29/4yA==
@@ -1774,7 +1774,7 @@
     ethers "^5.6.8"
     solc "^0.8.16"
 
-"@unirep/contracts@^2.0.0-beta-1":
+"@unirep/contracts@2.0.0-beta-1", "@unirep/contracts@^2.0.0-beta-1":
   version "2.0.0-beta-1"
   resolved "https://registry.yarnpkg.com/@unirep/contracts/-/contracts-2.0.0-beta-1.tgz#f0b6dc41932fbf9fe56b889612f5f80834154322"
   integrity sha512-yFb4C0/74ePhCMtQYfj+S0KvjCeq8pZySpz9IISn/98IlTkF2rz1gu3leuBBhTor/JIXBV07Em/FqqZThTuxEQ==
@@ -1799,6 +1799,19 @@
     ethers "^5.6.8"
     nanoid "3"
 
+"@unirep/core@^2.0.0-beta-1":
+  version "2.0.0-beta-1"
+  resolved "https://registry.yarnpkg.com/@unirep/core/-/core-2.0.0-beta-1.tgz#375993954c574516a804103883a44d3db8ef906d"
+  integrity sha512-cUsNDY/wHriSpvFwm5Uxokpjz09JHSngejqepl1wL2N0pIEmIM3470ZB3pN6DK4ZyA3iECdehomC3iINgKYuWg==
+  dependencies:
+    "@unirep/circuits" "2.0.0-beta-1"
+    "@unirep/contracts" "2.0.0-beta-1"
+    "@unirep/utils" "2.0.0-beta-1"
+    anondb "^0.0.16"
+    async-lock "^1.4.0"
+    ethers "^5.6.8"
+    nanoid "3"
+
 "@unirep/crypto@^2.0.0-alpha-0":
   version "2.0.0-alpha-0"
   resolved "https://registry.yarnpkg.com/@unirep/crypto/-/crypto-2.0.0-alpha-0.tgz#b7961af0ccecc6b8148730a0c1076088a09861e1"
@@ -1817,7 +1830,7 @@
     maci-crypto "^0.9.1"
     poseidon-lite "^0.0.2"
 
-"@unirep/utils@2.0.0-beta-1", "@unirep/utils@^2.0.0-alpha-4":
+"@unirep/utils@2.0.0-beta-1", "@unirep/utils@^2.0.0-beta-1":
   version "2.0.0-beta-1"
   resolved "https://registry.yarnpkg.com/@unirep/utils/-/utils-2.0.0-beta-1.tgz#e18f96bcc6f693d7dbf5b0592a1e4a622459469f"
   integrity sha512-xl9MRxFTlAHoJqsgrHA50gms1R+T0DmmyRQbOBO/l87IelhgXtFlPuY4N3Md1osRczSH4BV4t4NDhRAu8sDq8w==
@@ -2335,7 +2348,7 @@ async-limiter@~1.0.0:
   resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.1.tgz#dd379e94f0db8310b08291f9d64c3209766617fd"
   integrity sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
 
-async-lock@^1.2.11:
+async-lock@^1.2.11, async-lock@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/async-lock/-/async-lock-1.4.0.tgz#c8b6630eff68fbbdd8a5b6eb763dac3bfbb8bf02"
   integrity sha512-coglx5yIWuetakm3/1dsX9hxCNox22h7+V80RQOu2XUUMidtArxKoZoOtHUPuR84SycKTXzgGzAUR5hJxujyJQ==

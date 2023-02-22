@@ -1,60 +1,74 @@
-import { ethers } from "ethers";
-import { EpochKeyProof } from "@unirep/contracts";
-import { ADDRESS_ADDRESS } from "../config.mjs";
-import TransactionManager from "../singletons/TransactionManager.mjs";
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const AddressAttester = require("@unirep-app/contracts/artifacts/contracts/AddressAttester.sol/AddressAttester.json");
+import { ethers } from 'ethers'
+import { EpochKeyProof } from '@unirep/circuits'
+import { ADDRESS_ADDRESS } from '../config.mjs'
+import TransactionManager from '../singletons/TransactionManager.mjs'
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+const AddressAttester = require('@unirep-app/contracts/artifacts/contracts/AddressAttester.sol/AddressAttester.json')
 
 export default ({ app, db, synchronizer }) => {
-  app.post("/api/request", async (req, res) => {
+  app.post('/api/request', async (req, res) => {
     try {
-      const { posRep, negRep, graffiti, signature, publicSignals, proof } =
-        req.body;
+      // todo: posRep, negRep, graffiti = reqData
+      const { reqData, signature, publicSignals, proof } = req.body
 
-      console.log("posRep and signature:", posRep, signature);
+      console.log('posRep and signature:', posRep, signature)
 
       // proof over epoch key is needed before submitting an attestation
       const epochKeyProof = new EpochKeyProof(
         publicSignals,
         proof,
         synchronizer.prover
-      );
-      const valid = await epochKeyProof.verify();
+      )
+      const valid = await epochKeyProof.verify()
       if (!valid) {
-        res.status(400).json({ error: "Invalid proof" });
-        return;
+        res.status(400).json({ error: 'Invalid proof' })
+        return
       }
-      const epoch = await synchronizer.loadCurrentEpoch();
+      const epoch = await synchronizer.loadCurrentEpoch()
 
       const appContract = new ethers.Contract(
         ADDRESS_ADDRESS,
         AddressAttester.abi
-      );
+      )
 
       // call isValidSignature to verify signer & signature on-chain
       const addrCalldata = appContract.interface.encodeFunctionData(
-        "isValidSignature",
+        'isValidSignature',
         [posRep, signature]
-      );
+      )
       const addrHash = await TransactionManager.queueTransaction(
         ADDRESS_ADDRESS,
         addrCalldata
-      );
+      )
 
-      // submitting address as posRep to epochKey
-      const calldata = appContract.interface.encodeFunctionData(
-        "submitAttestation",
-        [epoch, epochKeyProof.epochKey, posRep, negRep, graffiti]
-      );
-      const hash = await TransactionManager.queueTransaction(
-        ADDRESS_ADDRESS,
-        calldata
-      );
+      const keys = Object.keys(reqData)
+      let calldata
+      if (keys.length === 1) {
+        calldata = appContract.interface.encodeFunctionData(
+          'submitAttestation',
+          [epochKeyProof.epochKey, epoch, keys[0], reqData[keys[0]]]
+        )
+      } else if (keys.length > 1) {
+        calldata = appContract.interface.encodeFunctionData(
+          'submitManyAttestations',
+          [epochKeyProof.epochKey, epoch, keys, keys.map((k) => reqData[k])]
+        )
+      }
 
-      res.json({ hash });
+      // // submitting address as posRep to epochKey
+      // const calldata = appContract.interface.encodeFunctionData(
+      //   'submitAttestation',
+      //   [epoch, epochKeyProof.epochKey, posRep, negRep, graffiti]
+      // )
+      // const hash = await TransactionManager.queueTransaction(
+      //   ADDRESS_ADDRESS,
+      //   calldata
+      // )
+
+      res.json({ hash })
     } catch (error) {
-      res.status(500).json({ error });
+      res.status(500).json({ error })
     }
-  });
-};
+  })
+}
