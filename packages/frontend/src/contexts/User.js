@@ -4,7 +4,7 @@ import { ZkIdentity, Strategy, hash1, stringifyBigInts } from '@unirep/utils'
 import { UserState, schema } from '@unirep/core'
 import { MemoryConnector } from 'anondb/web'
 import { constructSchema } from 'anondb/types'
-import { provider, UNIREP_ADDRESS, APP_ADDRESS, SERVER } from '../config'
+import { provider, UNIREP_ADDRESS, ADDRESS_ADDRESS, SERVER } from '../config'
 import prover from './prover'
 import poseidon from 'poseidon-lite'
 
@@ -35,7 +35,7 @@ class User {
       provider,
       prover,
       unirepAddress: UNIREP_ADDRESS,
-      attesterId: APP_ADDRESS,
+      attesterId: ADDRESS_ADDRESS,
       _id: identity,
     })
     await userState.sync.start()
@@ -86,7 +86,8 @@ class User {
     this.latestTransitionedEpoch = this.userState.sync.calcCurrentEpoch()
   }
   // todo: verify address is coming in
-  async requestReputation(reqData, epkNonce) {
+  async requestReputation(reqData, epkNonce, signature) {
+    console.log(reqData, epkNonce, signature)
     for (const key of Object.keys(reqData)) {
       if (reqData[key] === '') {
         delete reqData[key]
@@ -107,6 +108,7 @@ class User {
       body: JSON.stringify(
         stringifyBigInts({
           reqData,
+          signature,
           publicSignals: epochKeyProof.publicSignals,
           proof: epochKeyProof.proof,
         })

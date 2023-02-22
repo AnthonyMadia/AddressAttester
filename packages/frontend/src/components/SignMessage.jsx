@@ -1,56 +1,55 @@
-import React, { useState } from "react";
-import "./styles/signmessage.css";
-const { ethers } = require("ethers");
-import User from "../contexts/User";
+import React, { useState } from 'react'
+import './styles/signmessage.css'
+const { ethers } = require('ethers')
+import User from '../contexts/User'
 
 const SignMessage = (props) => {
-  const userContext = React.useContext(User);
+  const userContext = React.useContext(User)
   const messageToSign = async ({ message, setError }) => {
     try {
       if (!window.ethereum)
-        setError("Please connect your wallet before signing a message!");
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const signatureHash = await signer.signMessage(message);
-      const date = new Date();
-      const minutes = date.getMinutes();
-      const minutedigit = minutes <= 9 ? "0" + minutes : minutes;
-      const seconds = date.getSeconds();
-      const seconddigit = seconds <= 9 ? "0" + seconds : seconds;
+        setError('Please connect your wallet before signing a message!')
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner()
+      const signatureHash = await signer.signMessage(message)
+      const date = new Date()
+      const minutes = date.getMinutes()
+      const minutedigit = minutes <= 9 ? '0' + minutes : minutes
+      const seconds = date.getSeconds()
+      const seconddigit = seconds <= 9 ? '0' + seconds : seconds
       const dateFormat =
         date.toDateString().slice(4) +
-        " " +
+        ' ' +
         date.getHours() +
-        ":" +
+        ':' +
         minutedigit +
-        ":" +
-        seconddigit;
-      const timestamp = dateFormat.toString();
-      const address = await signer.getAddress();
+        ':' +
+        seconddigit
+      const timestamp = dateFormat.toString()
+      const address = await signer.getAddress()
 
       return {
         message,
         signatureHash,
         address,
         timestamp,
-      };
+      }
     } catch (err) {
-      console.log(err.message);
+      console.log(err.message)
     }
-  };
+  }
   // todo: refactor
   const signMessageHandler = async (e) => {
-    e.preventDefault();
-    const entry = new FormData(e.target);
+    e.preventDefault()
+    const entry = new FormData(e.target)
     const sig = await messageToSign({
-      message: entry.get("message"),
-    });
+      message: entry.get('message'),
+    })
     if (sig) {
-      console.log(sig.address);
-      userContext.requestReputation(sig.address, 0, 0, 0, sig.signatureHash);
-      props.onSubmit(sig);
+      userContext.requestReputation([sig.address], 0, sig.signatureHash)
+      props.onSubmit(sig)
     }
-  };
+  }
 
   return (
     <div className="card1">
@@ -82,7 +81,7 @@ const SignMessage = (props) => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SignMessage;
+export default SignMessage

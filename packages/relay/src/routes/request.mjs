@@ -12,7 +12,7 @@ export default ({ app, db, synchronizer }) => {
       // todo: posRep, negRep, graffiti = reqData
       const { reqData, signature, publicSignals, proof } = req.body
 
-      console.log('posRep and signature:', posRep, signature)
+      console.log(reqData, signature)
 
       // proof over epoch key is needed before submitting an attestation
       const epochKeyProof = new EpochKeyProof(
@@ -31,7 +31,6 @@ export default ({ app, db, synchronizer }) => {
         ADDRESS_ADDRESS,
         AddressAttester.abi
       )
-
       // call isValidSignature to verify signer & signature on-chain
       const addrCalldata = appContract.interface.encodeFunctionData(
         'isValidSignature',
