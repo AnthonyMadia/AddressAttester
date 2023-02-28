@@ -1,6 +1,6 @@
 [submodule "packages/circuits/circuits/efficient-zk-ecdsa"]
 	path = packages/circuits/circuits/efficient-zk-ecdsa
-	url = https://github.com/anthonymadia/efficient-zk-ecdsa.git
-[submodule "packages/circuits/circuits/unirep"]
-	path = packages/circuits/circuits/unirep
+	url = https://github.com/vimwitch/efficient-zk-ecdsa.git
+[submodule "packages/circuits/circuits/Unirep"]
+	path = packages/circuits/circuits/Unirep
 	url = https://github.com/Unirep/Unirep.git
