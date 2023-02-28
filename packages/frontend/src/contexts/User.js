@@ -85,7 +85,7 @@ class User {
     this.hasSignedUp = await this.userState.hasSignedUp()
     this.latestTransitionedEpoch = this.userState.sync.calcCurrentEpoch()
   }
-  // todo: verify address is coming in
+
   async requestReputation(reqData, epkNonce, signature) {
     for (const key of Object.keys(reqData)) {
       if (reqData[key] === '') {
@@ -99,6 +99,13 @@ class User {
     const epochKeyProof = await this.userState.genEpochKeyProof({
       nonce: epkNonce,
     })
+
+    console.log(
+      reqData,
+      signature,
+      epochKeyProof.publicSignals,
+      epochKeyProof.proof
+    )
     const data = await fetch(`${SERVER}/api/request`, {
       method: 'POST',
       headers: {
@@ -107,7 +114,7 @@ class User {
       body: JSON.stringify(
         stringifyBigInts({
           reqData,
-          signature,
+          // signature,
           publicSignals: epochKeyProof.publicSignals,
           proof: epochKeyProof.proof,
         })

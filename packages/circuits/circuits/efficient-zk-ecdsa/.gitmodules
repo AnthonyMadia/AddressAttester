@@ -1,0 +1,3 @@
+[submodule "circuits/circom-ecdsa-circuits/circomlib"]
+	path = circuits/circom-ecdsa-circuits/circomlib
+	url = https://github.com/iden3/circomlib.git

@@ -172,6 +172,23 @@ export default observer(() => {
               Attest
             </Button>
           </div>
+          {/* <div className="action-container">
+            <div className="icon">
+              <h2>Prove Reputation</h2>
+              <Tooltip text="Users can prove they control some amount of reputation without revealing exactly how much they control." />
+            </div>
+            <p>Minimum reputation:</p>
+            <input
+              value={repProofInputs.minRep ?? ''}
+              onChange={(event) => {
+                if (!/^\d*$/.test(event.target.value)) return
+                setRepProofInputs((v) => ({
+                  ...v,
+                  minRep: event.target.value ?? 0,
+                }))
+              }}
+            />
+          </div> */}
 
           <div className="action-container transition">
             <div className="icon">

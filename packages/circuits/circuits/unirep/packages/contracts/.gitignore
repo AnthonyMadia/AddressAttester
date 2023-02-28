@@ -1,0 +1,12 @@
+*.dbg.json
+cache
+build-info
+node_modules
+.DS_Store
+typechain
+build
+vbuild
+contracts/verifiers
+artifacts
+coverage
+coverage.json

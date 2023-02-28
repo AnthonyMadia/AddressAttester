@@ -1,0 +1,16 @@
+
+/*_js/
+/node_modules
+keys/
+build/
+
+*.ptau
+*.r1cs
+*.zkey
+*.wasm
+
+yarn-error.log
+input.json
+setup-phase2.sh
+
+.DS_Store
