@@ -100,12 +100,6 @@ class User {
       nonce: epkNonce,
     })
 
-    console.log(
-      reqData,
-      signature,
-      epochKeyProof.publicSignals,
-      epochKeyProof.proof
-    )
     const data = await fetch(`${SERVER}/api/request`, {
       method: 'POST',
       headers: {
