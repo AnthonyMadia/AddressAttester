@@ -8,7 +8,7 @@ import { provider, UNIREP_ADDRESS, ADDRESS_ADDRESS, SERVER } from '../config'
 import prover from './prover'
 import poseidon from 'poseidon-lite'
 
-class User {
+export default class User {
   currentEpoch
   latestTransitionedEpoch
   hasSignedUp = false
@@ -108,7 +108,7 @@ class User {
       body: JSON.stringify(
         stringifyBigInts({
           reqData,
-          // signature,
+          signature,
           publicSignals: epochKeyProof.publicSignals,
           proof: epochKeyProof.proof,
         })
@@ -158,5 +158,3 @@ class User {
     return { ...reputationProof, valid: await reputationProof.verify() }
   }
 }
-
-export default createContext(new User())

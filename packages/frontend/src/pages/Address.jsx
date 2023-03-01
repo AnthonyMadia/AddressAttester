@@ -27,7 +27,7 @@ export default observer(() => {
   const [signatures, setSignatures] = useState(INITIAL_SIGNATURES)
   const [error, setError] = useState(null)
   const navigate = useNavigate()
-  const userContext = useContext(User)
+  const { user } = React.useContext(state)
 
   const sigToArrHandler = (sigData) => {
     setSignatures((prevSignatures) => {
