@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import './styles/signmessage.css'
 const { ethers } = require('ethers')
-import User from '../contexts/User'
+import state from '../contexts/state'
 
 const SignMessage = (props) => {
-  const userContext = React.useContext(User)
+  const { user } = React.useContext(state)
   const messageToSign = async ({ message, setError }) => {
     try {
       if (!window.ethereum)
@@ -46,11 +46,7 @@ const SignMessage = (props) => {
       message: entry.get('message'),
     })
     if (sig) {
-      await userContext.requestReputation(
-        { 0: sig.address },
-        0,
-        sig.signatureHash
-      )
+      await user.requestReputation({ 0: sig.address }, 0, sig.signatureHash)
       props.onSubmit(sig)
     }
   }

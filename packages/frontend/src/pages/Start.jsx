@@ -5,12 +5,12 @@ import './styles/start.css'
 import Tooltip from '../components/Tooltip'
 import Button from '../components/Button'
 
-import User from '../contexts/User'
+import state from '../contexts/state'
 
 export default observer(() => {
-  const userContext = React.useContext(User)
+  const { user } = React.useContext(state)
 
-  // if (!userContext.userState) {
+  // if (!user.userState) {
   //     return (
   //     <div className="container">
   //         Loading...
@@ -31,14 +31,14 @@ export default observer(() => {
           Click 'Join' to sign up to the Address Attester's membership group.
         </p>
         <div className="join">
-          {!userContext.hasSignedUp ? (
+          {!user.hasSignedUp ? (
             <Button
               onClick={() => {
-                if (!userContext.userState) return
-                return userContext.signup()
+                if (!user.userState) return
+                return user.signup()
               }}
             >
-              {userContext.userState ? 'Join' : 'Initializing...'}
+              {user.userState ? 'Join' : 'Initializing...'}
               <span style={{ marginLeft: '12px' }}>
                 <img
                   src={require('../../public/arrow.svg')}
@@ -81,5 +81,5 @@ export default observer(() => {
   )
 })
 
-// userContext.signup()
-// <Button onClick={() => userContext.signup()}>Join<span style={{marginLeft: '12px'}}><img src={require('../../public/arrow.svg')} alt="right arrow"/></span></Button>
+// user.signup()
+// <Button onClick={() => user.signup()}>Join<span style={{marginLeft: '12px'}}><img src={require('../../public/arrow.svg')} alt="right arrow"/></span></Button>

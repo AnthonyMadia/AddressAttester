@@ -1,0 +1,21 @@
+{
+  "name": "@addressattester/circuits",
+  "version": "1.0.0",
+  "description": "Circuits for proof of address",
+  "author": "Anthony Madia",
+  "license": "ISC",
+  "scripts": {
+    "buildSnarks": "node --max-old-space-size=8192 scripts/buildParallel.mjs",
+    "build": "yarn buildSnarks",
+    "t": "which circom"
+  },
+  "dependencies": {
+    "@ethersproject/solidity": "^5.7.0",
+    "@unirep/utils": "2.0.0-beta-1",
+    "@unirep/circuits": "2.0.0-beta-1",
+    "snarkjs": "^0.5.0"
+  },
+  "devDependencies": {
+    "mocha": "^10.0.0"
+  }
+}

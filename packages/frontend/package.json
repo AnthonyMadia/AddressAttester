@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@cloudflare/kv-asset-handler": "^0.2.0",
+    "@ethereumjs/util": "^8.0.5",
     "@unirep/circuits": "^2.0.0-beta-1",
     "@unirep/core": "^2.0.0-beta-1",
     "ethers": "^5.7.2",
@@ -34,7 +35,7 @@
     "path-browserify": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.8.1",
+    "react-router-dom": "^6.4.2",
     "snarkjs": "^0.5.0",
     "stream-browserify": "^3.0.0",
     "webpack": "^5.74.0",

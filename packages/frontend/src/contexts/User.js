@@ -8,7 +8,7 @@ import { provider, UNIREP_ADDRESS, ADDRESS_ADDRESS, SERVER } from '../config'
 import prover from './prover'
 import poseidon from 'poseidon-lite'
 
-class User {
+export default class User {
   currentEpoch
   latestTransitionedEpoch
   hasSignedUp = false
@@ -85,7 +85,7 @@ class User {
     this.hasSignedUp = await this.userState.hasSignedUp()
     this.latestTransitionedEpoch = this.userState.sync.calcCurrentEpoch()
   }
-  // todo: verify address is coming in
+
   async requestReputation(reqData, epkNonce, signature) {
     for (const key of Object.keys(reqData)) {
       if (reqData[key] === '') {
@@ -99,6 +99,7 @@ class User {
     const epochKeyProof = await this.userState.genEpochKeyProof({
       nonce: epkNonce,
     })
+
     const data = await fetch(`${SERVER}/api/request`, {
       method: 'POST',
       headers: {
@@ -157,5 +158,3 @@ class User {
     return { ...reputationProof, valid: await reputationProof.verify() }
   }
 }
-
-export default createContext(new User())

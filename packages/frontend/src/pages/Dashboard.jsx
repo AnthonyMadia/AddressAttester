@@ -4,27 +4,27 @@ import './styles/dashboard.css'
 import Button from '../components/Button'
 import Tooltip from '../components/Tooltip'
 
-import User from '../contexts/User'
+import state from '../contexts/state'
 
 export default observer(() => {
-  const userContext = React.useContext(User)
+  const { user } = React.useContext(state)
   const [remainingTime, setRemainingTime] = React.useState(0)
   const [reqData, setReqData] = React.useState({})
   const [reqInfo, setReqInfo] = React.useState({})
 
   const updateTimer = () => {
-    if (!userContext.userState) {
+    if (!user.userState) {
       setRemainingTime('Loading...')
       return
     }
-    const time = userContext.userState.sync.calcEpochRemainingTime()
+    const time = user.userState.sync.calcEpochRemainingTime()
     setRemainingTime(time)
   }
 
   const fieldType = (i) => {
-    if (i < userContext.sumFieldCount) {
+    if (i < user.sumFieldCount) {
       return 'sum'
-    } else if (i % 2 === userContext.sumFieldCount % 2) {
+    } else if (i % 2 === user.sumFieldCount % 2) {
       return 'replace'
     } else return 'timestamp'
   }
@@ -35,7 +35,7 @@ export default observer(() => {
     }, 1000)
   }, [])
 
-  if (!userContext.userState) {
+  if (!user.userState) {
     return <div className="container">Loading...</div>
   }
 
@@ -53,7 +53,7 @@ export default observer(() => {
           <div className="info-item">
             <div>Current epoch #</div>
             <div className="stat">
-              {userContext.userState?.sync.calcCurrentEpoch()}
+              {user.userState?.sync.calcCurrentEpoch()}
             </div>
           </div>
           <div className="info-item">
@@ -62,7 +62,7 @@ export default observer(() => {
           </div>
           <div className="info-item">
             <div>Latest transition epoch</div>
-            <div className="stat">{userContext.latestTransitionedEpoch}</div>
+            <div className="stat">{user.latestTransitionedEpoch}</div>
           </div>
 
           <hr />
@@ -71,7 +71,7 @@ export default observer(() => {
             <h3>Latest Reputation</h3>
             <Tooltip text="This is all the reputation the user has received. The user cannot prove reputation from the current epoch." />
           </div>
-          {userContext.data.map((data, i) => {
+          {user.data.map((data, i) => {
             return (
               <div key={i} className="info-item">
                 <div>Data {i}</div>
@@ -86,7 +86,7 @@ export default observer(() => {
             <h3>Provable Reputation</h3>
             <Tooltip text="This is the reputation the user has received up until their last transitioned epoch. This reputation can be proven in ZK." />
           </div>
-          {userContext.provableData.map((data, i) => {
+          {user.provableData.map((data, i) => {
             return (
               <div key={i} className="info-item">
                 <div>Data {i}</div>
@@ -109,7 +109,7 @@ export default observer(() => {
                 justifyContent: 'flex-start',
               }}
             >
-              {Array(userContext.userState.sync.settings.fieldCount)
+              {Array(user.userState.sync.settings.fieldCount)
                 .fill()
                 .map((_, i) => {
                   return (
@@ -154,24 +154,41 @@ export default observer(() => {
                 textOverflow: 'ellipsis',
               }}
             >
-              {userContext.epochKey(reqInfo.nonce ?? 0)}
+              {user.epochKey(reqInfo.nonce ?? 0)}
             </p>
 
             <Button
               onClick={async () => {
                 if (
-                  userContext.userState.sync.calcCurrentEpoch() !==
-                  (await userContext.userState.latestTransitionedEpoch())
+                  user.userState.sync.calcCurrentEpoch() !==
+                  (await user.userState.latestTransitionedEpoch())
                 ) {
                   throw new Error('Needs transition')
                 }
-                await userContext.requestReputation(reqData, reqInfo.nonce ?? 0)
+                await user.requestReputation(reqData, reqInfo.nonce ?? 0)
                 setReqData({})
               }}
             >
               Attest
             </Button>
           </div>
+          {/* <div className="action-container">
+            <div className="icon">
+              <h2>Prove Reputation</h2>
+              <Tooltip text="Users can prove they control some amount of reputation without revealing exactly how much they control." />
+            </div>
+            <p>Minimum reputation:</p>
+            <input
+              value={repProofInputs.minRep ?? ''}
+              onChange={(event) => {
+                if (!/^\d*$/.test(event.target.value)) return
+                setRepProofInputs((v) => ({
+                  ...v,
+                  minRep: event.target.value ?? 0,
+                }))
+              }}
+            />
+          </div> */}
 
           <div className="action-container transition">
             <div className="icon">
@@ -180,7 +197,7 @@ export default observer(() => {
                 text={`The user state transition allows a user to insert a state tree leaf into the latest epoch. The user sums all the reputation they've received in the past and proves it in ZK.`}
               />
             </div>
-            <Button onClick={() => userContext.stateTransition()}>
+            <Button onClick={() => user.stateTransition()}>
               Transition
             </Button>
           </div>
