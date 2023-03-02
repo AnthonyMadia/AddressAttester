@@ -19,8 +19,9 @@ export default class Address {
   }
 
   setSignature(signature) {
+    console.log('logging signature coming in', signature) //these match :thumbsUp
     this.signature = signature
-    console.log(this.signature)
+    console.log('logging this.signature', this.signature)
   }
 
   // prove control of an address and sign some text
@@ -30,12 +31,8 @@ export default class Address {
       throw new Error('You are not authorized to chat here')
     }
     const addressTreeProof = this.addressTree.createProof(addrIndex)
-    // // take the upper 250 bits to fit into a bn128 field element
-    // const hash = ethers.utils.keccak256(
-    //   '0x' + Buffer.from(text, 'utf8').toString('hex')
-    // )
-    // todo: we have signatures hash already from signing a message
-    const sig_data = BigInt(signature) >> BigInt(6)
+
+    const sig_data = BigInt(this.signature) >> BigInt(6)
     const data = await this.userState.getData()
     const stateTree = await this.userState.sync.genStateTree(0)
     const index = await this.userState.latestStateTreeLeafIndex()
