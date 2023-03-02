@@ -11,7 +11,7 @@ import GeneratedSignatures from '../components/GeneratedSignatures'
 import WalletButton from '../components/WalletButton'
 import ErrorMessage from '../components/ErrorMessage'
 
-import User from '../contexts/User'
+import state from '../contexts/state'
 
 const INITIAL_SIGNATURES = [
   {

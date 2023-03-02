@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import { observer } from 'mobx-react-lite'
 import './styles/walletbutton.css'
 import state from '../contexts/state'
 
-const WalletButton = ({ setError }) => {
-  const address = React.useContext(state)
+export default observer(({ setError }) => {
+  const { address } = React.useContext(state)
   const [walletAddress, setWallet] = useState('')
 
   const connectWallet = async () => {
@@ -111,6 +112,4 @@ const WalletButton = ({ setError }) => {
       </button>
     </div>
   )
-}
-
-export default WalletButton
+})
