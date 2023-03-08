@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import measureText from '../utils/measure-text'
 import './styles/tooltip.css'
-import UIContext from '../contexts/interface'
+import state from '../contexts/state'
 import { observer } from 'mobx-react-lite'
 
-export default observer(({
-  text,
-  maxWidth,
-  ...props
-}) => {
-  const ui = React.useContext(UIContext)
+export default observer(({ text, maxWidth, ...props }) => {
+  const { ui } = React.useContext(state)
   const containerEl = React.createRef()
   const [timer, setTimer] = useState(null)
   const [showingPopup, setShowingPopup] = useState(false)
@@ -26,7 +22,7 @@ export default observer(({
     const { x } = containerEl.current.getBoundingClientRect()
     const screenMaxWidth = window.innerWidth - x
     const minWidth = _maxWidth + 20
-    setLeftOffset(screenMaxWidth > minWidth ? 0 : (minWidth - screenMaxWidth))
+    setLeftOffset(screenMaxWidth > minWidth ? 0 : minWidth - screenMaxWidth)
   })
   return (
     <div
@@ -52,22 +48,19 @@ export default observer(({
         onMouseEnter={!ui.isMobile && setShowingPopup.bind(null, true)}
         onMouseLeave={!ui.isMobile && setShowingPopup.bind(null, false)}
       >
-        <img src={require('../../public/info_icon.svg')} alt="info icon"/>
+        <img src={require('../../public/info_icon.svg')} alt="info icon" />
       </div>
-      {showingPopup &&
-        <div className={`tooltip-popup ${ui.modeCssClass}`}
-            style={{
-              width: `${textWidth}px`,
-              left: `-${leftOffset}px`,
-            }}
+      {showingPopup && (
+        <div
+          className={`tooltip-popup ${ui.modeCssClass}`}
+          style={{
+            width: `${textWidth}px`,
+            left: `-${leftOffset}px`,
+          }}
         >
-          <div
-            className={`tooltip-inner ${ui.modeCssClass}`}
-          >
-            {text}
-          </div>
+          <div className={`tooltip-inner ${ui.modeCssClass}`}>{text}</div>
         </div>
-      }
+      )}
     </div>
   )
 })

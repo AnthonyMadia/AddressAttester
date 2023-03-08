@@ -63,9 +63,9 @@ export default class User {
     return `0x${key.toString(16)}`
   }
 
-  async loadReputation() {
+  async loadReputation() { // puts user data in this.data[]
     this.data = await this.userState.getData()
-    this.provableData = await this.userState.getProvableData()
+    this.provableData = await this.userState.getProvableData() // puts provableData in this.
   }
 
   async signup(message) {

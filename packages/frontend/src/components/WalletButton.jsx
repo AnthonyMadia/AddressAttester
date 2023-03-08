@@ -60,7 +60,7 @@ export default observer(({ setError }) => {
       const walletResponse = await connectWallet()
       setWallet(walletAddress.address)
       // add address to address store
-      address.setAddress(walletAddress.address)
+      address.setSignature(walletAddress.address)
       setError(null)
     } catch (err) {
       setError(err.message)
@@ -73,6 +73,7 @@ export default observer(({ setError }) => {
         // first, listen for an account change event from metamask
         if (accounts.length > 0) {
           setWallet(accounts[0])
+          address.setSignature(accounts[0])
           setError(null)
         } else {
           setWallet('')
@@ -87,6 +88,8 @@ export default observer(({ setError }) => {
     try {
       const address = await getConnectedWallet()
       setWallet(address)
+      // todo: this method will not exist on render
+      // address.setSignature(address)
 
       addWalletListener()
     } catch (err) {

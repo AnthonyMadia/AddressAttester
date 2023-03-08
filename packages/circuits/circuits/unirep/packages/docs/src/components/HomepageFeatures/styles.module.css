@@ -1,0 +1,37 @@
+.features {
+    display: flex;
+}
+
+.featureTitle {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 104%;
+    color: var(--ifm-color-primary-darkest);
+}
+
+.featureDescription {
+    font-size: 20px;
+    line-height: 120%;
+    color: var(--ifm-color-primary-darkest);
+}
+
+.featureContainer {
+    max-width: 530px;
+    margin-bottom: 93px;
+}
+
+.descriptionImage {
+    margin: 0px 2rem;
+}
+
+@media screen and (max-width: 700px) {
+    .descriptionImage {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 996px) {
+    .featureContainer {
+        margin-left: 123px;
+    }
+}

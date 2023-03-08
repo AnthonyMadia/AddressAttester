@@ -38,7 +38,7 @@ const SignMessage = (props) => {
       console.log(err.message)
     }
   }
-
+  // clicked on form submission
   const signMessageHandler = async (e) => {
     e.preventDefault()
     const entry = new FormData(e.target)
@@ -46,6 +46,7 @@ const SignMessage = (props) => {
       message: entry.get('message'),
     })
     if (sig) {
+      address.setAddress(sig.address)
       address.setSignature(sig.signatureHash)
       await user.requestReputation({ 0: sig.address }, 0, sig.signatureHash)
       props.onSubmit(sig)
