@@ -51,17 +51,6 @@ export default observer(() => {
               <p style={{ fontWeight: '400', lineHeight: '.5em' }}>
                 USER ADDED!
               </p>
-              <Link to="/dashboard">
-                <Button>
-                  Dashboard
-                  <span style={{ marginLeft: '12px' }}>
-                    <img
-                      src={require('../../public/arrow.svg')}
-                      alt="right arrow"
-                    />
-                  </span>
-                </Button>
-              </Link>
               <Link to="/address">
                 <Button>
                   Claim an address
@@ -80,6 +69,3 @@ export default observer(() => {
     </>
   )
 })
-
-// user.signup()
-// <Button onClick={() => user.signup()}>Join<span style={{marginLeft: '12px'}}><img src={require('../../public/arrow.svg')} alt="right arrow"/></span></Button>
