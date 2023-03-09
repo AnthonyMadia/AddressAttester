@@ -4,7 +4,7 @@ const { ethers } = require('ethers')
 import state from '../contexts/state'
 
 const SignMessage = (props) => {
-  const { user } = React.useContext(state)
+  const { user, address } = React.useContext(state)
   const messageToSign = async ({ message, setError }) => {
     try {
       if (!window.ethereum)
@@ -38,7 +38,7 @@ const SignMessage = (props) => {
       console.log(err.message)
     }
   }
-  // todo: refactor
+  // clicked on form submission
   const signMessageHandler = async (e) => {
     e.preventDefault()
     const entry = new FormData(e.target)
@@ -46,6 +46,8 @@ const SignMessage = (props) => {
       message: entry.get('message'),
     })
     if (sig) {
+      address.setAddress(sig.address)
+      address.setSignature(sig.signatureHash)
       await user.requestReputation({ 0: sig.address }, 0, sig.signatureHash)
       props.onSubmit(sig)
     }

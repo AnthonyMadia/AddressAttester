@@ -64,8 +64,9 @@ export default class User {
   }
 
   async loadReputation() {
+    // puts user data in this.data[]
     this.data = await this.userState.getData()
-    this.provableData = await this.userState.getProvableData()
+    this.provableData = await this.userState.getProvableData() // puts provableData in this.
   }
 
   async signup(message) {
@@ -146,6 +147,7 @@ export default class User {
   }
 
   async proveReputation(minRep = 0, _graffitiPreImage = 0) {
+    //TODO: recheck if this throws a server error
     let graffitiPreImage = _graffitiPreImage
     if (typeof graffitiPreImage === 'string') {
       graffitiPreImage = `0x${Buffer.from(_graffitiPreImage).toString('hex')}`
@@ -155,6 +157,21 @@ export default class User {
       minRep: Number(minRep),
       graffitiPreImage,
     })
-    return { ...reputationProof, valid: await reputationProof.verify() }
+    const data = await fetch(`${SERVER}/api/prove`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        publicSignals: reputationProof.publicSignals,
+        proof: reputationProof.proof,
+      }),
+    }).then((r) => r.json())
+    await provider.waitForTransaction(data.hash)
+    await this.userState.waitForSync()
+    await this.loadReputation()
+    this.latestTransitionedEpoch =
+      await this.userState.latestTransitionedEpoch()
+    // return { ...reputationProof, valid: await reputationProof.verify() }
   }
 }

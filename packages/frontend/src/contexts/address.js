@@ -1,17 +1,32 @@
 import { createContext } from 'react'
 import { makeAutoObservable } from 'mobx'
-import { SERVER } from '../config'
+import { SERVER, provider } from '../config'
+import { ZkIdentity, Strategy, F, IncrementalMerkleTree } from '@unirep/utils'
+import { UserState } from '@unirep/core'
+import { SECP256K1_N, getPointPreComputes, splitToRegisters } from '../utils/ec'
+import prover from './prover'
+import elliptic from 'elliptic'
+import BN from 'bn.js'
+import poseidon from 'poseidon-lite'
 
 export default class Address {
-  hasSignedUp = false
+  id = null
   address = null
   signature = null
+  // todo: create tree
+  // addressTree = null
 
-  constructor() {
+  constructor(state) {
     makeAutoObservable(this)
+    this.state = state
     this.load()
   }
   async load() {}
+
+  // addressIndex(addr) {
+  //   if (!this.addressTree) return -1
+  //   return this.addressTree._nodes[0].indexOf(BigInt(addr))
+  // }
 
   setAddress(address) {
     this.address = address
@@ -19,23 +34,34 @@ export default class Address {
   }
 
   setSignature(signature) {
+    console.log('logging signature coming in', signature) //these match :thumbsUp
     this.signature = signature
-    console.log(this.signature)
+    console.log('logging this.signature', this.signature)
   }
 
-  // prove control of an address and sign some text
+  async setIdentity() {
+    const {
+      default: { sha512 },
+    } = await import(/* webpackPrefetch: true */ 'js-sha512')
+    const h = sha512(sig).padStart(128, '0')
+    const nullifier = BigInt('0x' + h.slice(0, 64)) >> BigInt(6)
+    const trapdoor = BigInt('0x' + h.slice(64)) >> BigInt(6)
+    this.id = new ZkIdentity(0)
+    this.id._identityTrapdoor = trapdoor
+    this.id._identityNullifier = nullifier
+    this.id._secret = [nullifier, trapdoor]
+  }
+
+  // prove control of an address and sign some text - need offchain tree for this
   async proveAddressData() {
+    console.log('logging address in proveAddressData()', this.address)
     const addrIndex = this.addressIndex(BigInt(this.address))
     if (addrIndex === -1) {
-      throw new Error('You are not authorized to chat here')
+      throw new Error('-1 for addr index')
     }
     const addressTreeProof = this.addressTree.createProof(addrIndex)
-    // // take the upper 250 bits to fit into a bn128 field element
-    // const hash = ethers.utils.keccak256(
-    //   '0x' + Buffer.from(text, 'utf8').toString('hex')
-    // )
-    // todo: we have signatures hash already from signing a message
-    const sig_data = BigInt(signature) >> BigInt(6)
+
+    const sig_data = BigInt(this.signature) >> BigInt(6)
     const data = await this.userState.getData()
     const stateTree = await this.userState.sync.genStateTree(0)
     const index = await this.userState.latestStateTreeLeafIndex()
