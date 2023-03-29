@@ -121,11 +121,13 @@ async function completeTwitterAuth(req, res, db) {
       'content-type': 'application/x-www-form-urlencoded',
     },
   }).then((r) => r.json())
+  console.log(auth)
   const user = await fetch('https://api.twitter.com/2/users/me', {
     headers: {
       authorization: `Bearer ${auth.access_token}`,
     },
   }).then((r) => r.json())
+  console.log(user)
   if (!user.data.id) {
     const url = new URL(_state.redirectDestination)
     url.searchParams.append('signupError', 'Unknown problem')
