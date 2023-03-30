@@ -16,8 +16,8 @@ contract AddressAttester {
     }
 
     function userSignUp(
-        uint256[] memory publicSignals,
-        uint256[8] memory proof
+        uint256[] calldata publicSignals,
+        uint256[8] calldata proof
     ) public {
         unirep.userSignUp(publicSignals, proof);
     }
@@ -28,18 +28,12 @@ contract AddressAttester {
      * @param signer The address of user who wants to perform an action
      * @param signature The signature signed by the signer
      */
-    function isValidSignature(address signer, bytes memory signature)
+    function isValidSignature(address signer, bytes calldata signature)
         public
         view
         returns (bool)
     {
-        // Attester signs over it's own address concatenated with this contract address
-        bytes32 messageHash = keccak256(
-            abi.encodePacked(
-                '\x19Ethereum Signed Message:\n32',
-                keccak256(abi.encodePacked(signer, this))
-            )
-        );
+        bytes32 messageHash = keccack256(abi.encodePacked(byte(0x19), byte(0), address(this), signer));
         return ECDSA.recover(messageHash, signature) == signer;
     }
 
